@@ -5,8 +5,8 @@ The nios_provider variable used in the tasks is intentionally encrypted to refle
 ---vars/main.yml---
 ---
 nios_provider:<br>
-<indent>host: 192.168.0.11<br>
-<indent>username: admin<br>
-<indent>password: integrate<br>
+(indent)host: 192.168.0.11<br>
+(indent)username: admin<br>
+(indent)password: integrate<br>
 
 <i>More content to follow</i>
