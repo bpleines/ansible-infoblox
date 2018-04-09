@@ -4,10 +4,9 @@ The nios_provider variable used in the tasks is intentionally encrypted to refle
 
 ---vars/main.yml---
 ---
-# vars file for dynamicInfoblox
-nios_provider:
-  host: 192.168.0.11
-  username: admin
-  password: integrate
+nios_provider:<br>
+  host: 192.168.0.11<br>
+  username: admin<br>
+  password: integrate<br>
 
-More content to follow...
+<i>More content to follow</i>
