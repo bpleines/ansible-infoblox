@@ -22,7 +22,7 @@
 
 #The network, host ip/address, admin, and password will need to be adjusted for the infoblox installation
 #Default IP address is 192.168.1.2
-- name: 'Use the next ip lookup to get next the available IP address for a given subnet'
+- name: 'Use the nios_next_ip lookup to get the next available IP address(es) for a given subnet'
   set_fact: 
     ipaddr: "{{ lookup('nios_next_ip', '192.168.0.0/23', provider={'host': '192.168.0.11', 'username': 'admin', 'password': 'integrate'}) }}"
 
