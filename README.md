@@ -10,9 +10,9 @@ The infoblox-client installed on the targeted localhost machine. Ansible v >= 2.
 
 Role Variables
 --------------
-```
-example nios_provider supplied below. This should be vaulted in vars
+Example nios_provider supplied below. This should be vaulted in vars
 
+```
 nios_provider:
    #Default nios_provider IP with out-of-the-box installation
    host: 192.168.1.2
