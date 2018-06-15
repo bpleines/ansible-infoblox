@@ -24,7 +24,7 @@
 #Default IP address is 192.168.1.2
 - name: 'Use the nios_next_ip lookup to get the next available IP address(es) for a given subnet'
   set_fact: 
-    ipaddr: "{{ lookup('nios_next_ip', '192.168.0.0/23', provider={'host': '192.168.1.2', 'username': 'admin', 'password': 'integrate'}) }}"
+    ipaddr: "{{ lookup('nios_next_ip', '192.168.0.0/23', provider={'host': '192.168.1.2', 'username': 'admin', 'password': 'infoblox'}) }}"
 
 - name: Create a host record at the dynamically gathered address
   nios_host_record:

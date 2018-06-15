@@ -1,3 +1,5 @@
+Simple Ansible infoblox role
+
 dynamicInfoblox
 =========
 
@@ -14,10 +16,10 @@ Example nios_provider supplied below. This should be vaulted in vars
 
 ```
 nios_provider:
-   #Default nios_provider IP with out-of-the-box installation
+   #Out-of-the-box defaults specified here
    host: 192.168.1.2
    username: admin
-   password: integrate
+   password: infoblox
 ```
 Dependencies
 ------------
