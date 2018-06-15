@@ -13,10 +13,10 @@ Role Variables
 example nios_provider supplied below. This should be vaulted in vars
 
 nios_provider:<br>
-"&emsp;"#Default nios_provider IP with out-of-the-box installation<br>
-"&emsp;"host: 192.168.1.2<br>
-"&emsp;"username: admin<br>
-"&emsp;"password: integrate<br>
+&emsp;#Default nios_provider IP with out-of-the-box installation<br>
+&emsp;host: 192.168.1.2<br>
+&emsp;username: admin<br>
+&emsp;password: integrate<br>
 
 Dependencies
 ------------
