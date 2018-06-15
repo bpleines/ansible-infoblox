@@ -1,5 +1,6 @@
 ---
-- hosts: localhost
+- name: Dynamically create a host record at the next available ip
+  hosts: localhost
   connection: local
 
   roles:

@@ -1,12 +1,41 @@
-The following content is an ongoing effort to test the new integration between Infoblox and Ansible Core v2.5
+dynamicInfoblox
+=========
 
-The nios_provider variable used in the tasks is intentionally encrypted to reflect a proper project setup. The contents in that encrypted file look like the following so you can delete it and create your own:
+A very basic role using some of Infoblox's new integration in Core v2.5 to dynamically add a record at the next available ip
 
----vars/main.yml---
----
-nios_provider:<br>
-(indent)host: 192.168.0.11<br>
-(indent)username: admin<br>
-(indent)password: integrate<br>
+Requirements
+------------
 
-<i>More content to follow</i>
+The infoblox-client installed on the targeted localhost machine. Ansible v >= 2.5 for the infoblox modules and lookup plugin
+
+Role Variables
+--------------
+example nios_provider supplied below. This should be vaulted in vars
+
+nios_provider:
+  #Default nios_provider IP with out-of-the-box installation
+  host: 192.168.1.2
+  username: admin
+  password: integrate
+
+Dependencies
+------------
+
+Example Playbook
+----------------
+
+Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+
+    - hosts: localhost
+      roles:
+         - { role: dynamicInfoblox }
+
+License
+-------
+
+BSD
+
+Author Information
+------------------
+
+Branden Pleines
