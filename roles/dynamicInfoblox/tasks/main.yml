@@ -1,8 +1,8 @@
 ---
-- name: 'Ensure no dnsview named ansible'
+- name: 'Create a dnsview named ansible'
   nios_dns_view:
     name: ansible
-    state: absent
+    state: present
     provider: '{{ nios_provider }}'
 
 - name: 'Create some host records at hardcoded addresess and ips'
@@ -24,7 +24,7 @@
 #Default IP address is 192.168.1.2
 - name: 'Use the nios_next_ip lookup to get the next available IP address(es) for a given subnet'
   set_fact: 
-    ipaddr: "{{ lookup('nios_next_ip', '192.168.0.0/23', provider={'host': '192.168.0.11', 'username': 'admin', 'password': 'integrate'}) }}"
+    ipaddr: "{{ lookup('nios_next_ip', '192.168.0.0/23', provider={'host': '192.168.1.2', 'username': 'admin', 'password': 'integrate'}) }}"
 
 - name: Create a host record at the dynamically gathered address
   nios_host_record:
@@ -35,3 +35,4 @@
     provider: '{{ nios_provider }}'
   with_items:
     - '{{ ipaddr }}'
+...
