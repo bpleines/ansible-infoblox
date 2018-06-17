@@ -1,4 +1,5 @@
 ---
+#Customers typically use the default view
 #- name: 'Create a dnsview named ansible'
 #  nios_dns_view:
 #    name: ansible
@@ -14,6 +15,7 @@
 
 - name: 'Create a forward DNS local zone called ansible.local'
   nios_zone:
+    #Hardcoded here and set as fact later
     name: ansible.local
     comment: this is a local DNS zone called ansible.local
     state: present
@@ -27,11 +29,11 @@
 #    state: present
 #    provider: '{{ nios_provider }}'
 
-- name: 'Set a fact for the local zone for further usage'
+- name: 'Set a fact for the local zone for further reuse'
   set_fact:
     ansible_zone: 'ansible.local'  
 
-- name: 'Dynamically generate {{ host_count }} host records'
+- name: 'Dynamically generate {{ host_count }} host records at next available ip'
   include_tasks: host_record_generation.yml
   loop_control:
     loop_var: count 
