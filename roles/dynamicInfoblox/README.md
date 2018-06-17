@@ -3,7 +3,7 @@ Dynamically create host records in Infoblox using Ansible!
 dynamicInfoblox
 =========
 
-A basic role using some of Infoblox's new integration in Core v2.5 to dynamically add sequence of host records at the next available ip address
+A basic role using some of Infoblox's new integration in Core v2.5 to dynamically add a sequence of host records at the next available ip address
 
 Requirements
 ------------
