@@ -1,38 +1,39 @@
 ---
-- name: 'Create a dnsview named ansible'
-  nios_dns_view:
-    name: ansible
+#- name: 'Create a dnsview named ansible'
+#  nios_dns_view:
+#    name: ansible
+#    state: present
+#    provider: '{{ nios_provider }}'
+
+- name: 'Create a test network subnet'
+  nios_network: 
+    network: 192.168.1.0/24
+    comment: test network subnet to add host records to
     state: present
     provider: '{{ nios_provider }}'
 
-- name: 'Create some host records at hardcoded addresess and ips'
-  nios_host_record:
-    name: '{{ item.name }}.acme.com'
-    ipv4: 
-      - address: '{{ item.address }}'
+- name: 'Create a forward DNS local zone called ansible.local'
+  nios_zone:
+    name: ansible.local
+    comment: this is a local DNS zone called ansible.local
     state: present
     provider: '{{ nios_provider }}'
-  with_items:
-    - name: servera
-      address: 192.168.0.15
-    - name: serverb 
-      address: 192.168.0.16
-    - name: serverc
-      address: 192.168.0.17
 
-#The network, host ip/address, admin, and password will need to be adjusted for the infoblox installation
-#Default IP address is 192.168.1.2
-- name: 'Use the nios_next_ip lookup to get the next available IP address(es) for a given subnet'
-  set_fact: 
-    ipaddr: "{{ lookup('nios_next_ip', '192.168.0.0/23', provider={'host': '192.168.1.2', 'username': 'admin', 'password': 'infoblox'}) }}"
+#  This is a manual step for now     
+#- name: 'Create a reverse DNS zone call 1.168.192.in-addr.arpa'
+#  nios_zone:
+#    name: 1.168.192.in-addr.arpa
+#    comment: this is a reverse DNS zone called 1.168.192.in-addr.arpa'
+#    state: present
+#    provider: '{{ nios_provider }}'
 
-- name: Create a host record at the dynamically gathered address
-  nios_host_record:
-    name: 'dynamic.acme.com'
-    ipv4:
-      - address: '{{ item }}'
-    state: present
-    provider: '{{ nios_provider }}'
-  with_items:
-    - '{{ ipaddr }}'
+- name: 'Set a fact for the local zone for further usage'
+  set_fact:
+    ansible_zone: 'ansible.local'  
+
+- name: 'Dynamically generate {{ host_count }} host records'
+  include_tasks: host_record_generation.yml
+  loop_control:
+    loop_var: count 
+  with_sequence: start=1 end={{ host_count }}
 ...
