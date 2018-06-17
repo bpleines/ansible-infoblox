@@ -1,18 +1,20 @@
-Simple Ansible infoblox role
+Dynamically create host records in Infoblox using Ansible!
 
 dynamicInfoblox
 =========
 
-A very basic role using some of Infoblox's new integration in Core v2.5 to dynamically add a record at the next available ip
+A basic role using some of Infoblox's new integration in Core v2.5 to dynamically add sequence of host records at the next available ip address
 
 Requirements
 ------------
 
 The infoblox-client installed on the targeted localhost machine. Ansible v >= 2.5 for the infoblox modules and lookup plugin
 
+There is an existing dependency to manually create the reverse lookup zone- hope to resolve this soon
+
 Role Variables
 --------------
-Example nios_provider supplied below. This should be vaulted in vars
+Example nios_provider supplied below. This should be vaulted for production use
 
 ```
 nios_provider:
@@ -30,8 +32,11 @@ Example Playbook
 Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
 
     - hosts: localhost
+      connection: local
       roles:
-         - { role: dynamicInfoblox }
+         - { role: dynamicInfoblox, host_count: 10 }
+
+This will create 10 host records at the next available IP Address
 
 License
 -------
