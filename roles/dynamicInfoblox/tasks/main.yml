@@ -28,16 +28,12 @@
     user: '{{ nios_provider.username }}'
     password: '{{ nios_provider.password }}'
     #Extra space to avoid type detection
-    body: ' {{ reverse_json_data|to_json }}'
+    body: "{{ lookup('file','reverse_zone.json') }}"
     body_format: json
     validate_certs: no
   register: reverse_dns_create
   ignore_errors: true
-  vars:
-    reverse_json_data:
-      "fqdn":"192.168.1.0/24"
-      "zone_format":"IPV4"
-
+ 
 - name: 'Idempotency check for reverse zone already existing'
   fail: 
     msg: "The reverse zone creation failed"
