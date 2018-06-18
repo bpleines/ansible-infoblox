@@ -42,7 +42,7 @@
 - name: 'Idempotency check for reverse zone already existing'
   fail: 
     msg: "The reverse zone creation failed"
-  when: '"Reverse zone already exists" in reverse_dns_create.stderr and reverse_dns_create.stderr'
+  when: '"zone exists" in reverse_dns_create.json.text'
 
 - name: 'Set a fact for the local zone for further reuse'
   set_fact:
