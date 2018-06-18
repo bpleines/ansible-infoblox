@@ -21,23 +21,27 @@
     state: present
     provider: '{{ nios_provider }}'
 
-- name: 'Create a reverse DNS zone called 1.168.192.in-addr.arpa'
-  uri:
-    url: https://{{ nios_provider.host }}/wapi/v2.6/zone_auth
-    method: POST
-    user: '{{ nios_provider.username }}'
-    password: '{{ nios_provider.password }}'
-    body: "{{ reverse_zone_yml|to_json }}"
-    force_basic_auth: true
-    headers:
-      Content-Type: "application/json"
-    validate_certs: no
-  register: reverse_dns_create
-  failed_when: reverse_dns_create.status != 201 or reverse_dns_create.status != 200
-  vars:
-    reverse_zone_yml:
-      fqdn: "192.168.1.0/24"
-      zone_format: "IPV4"
+- name: 'Create a reverse DNS zone called 1.168.192.in-appr.arpa'
+  script: task_create-authoritative-reverse-zone.sh
+
+#Having issues with the return codes - needs further investigation
+#- name: 'Create a reverse DNS zone called 1.168.192.in-addr.arpa'
+#  uri:
+#    url: https://{{ nios_provider.host }}/wapi/v2.6/zone_auth
+#    method: POST
+#    user: '{{ nios_provider.username }}'
+#    password: '{{ nios_provider.password }}'
+#    body: "{{ reverse_zone_yml|to_json }}"
+#    force_basic_auth: true
+#    headers:
+#      Content-Type: "application/json"
+#    validate_certs: no
+#  register: reverse_dns_create
+#  failed_when: reverse_dns_create.status != 201 or reverse_dns_create.status != 200
+#  vars:
+#    reverse_zone_yml:
+#      fqdn: "192.168.1.0/24"
+#      zone_format: "IPV4"
 
 - name: 'Set a fact for the local zone for further reuse'
   set_fact:
