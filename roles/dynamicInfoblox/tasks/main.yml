@@ -36,7 +36,7 @@
 - name: 'Idempotency check for reverse zone already existing'
   fail: 
     msg: "The reverse zone creation failed"
-  when: '"Reverse zone already exists" not in reverse_dns_create.stdout'
+  when: '"Reverse zone already exists" in reverse_dns_create.stdout'
 
 - name: 'Set a fact for the local zone for further reuse'
   set_fact:
