@@ -1,0 +1,9 @@
+
+- name: Create the reverse dns zone 
+  uri:
+    url: 'https://{{ nios_provider.host }}/wapi/v2.6/zone_auth'
+    method: POST
+    user: '{{ nios_provider.username }}'
+    password: '{{ nios_provider.password }}'
+    body: "{{  }}"
+    body_format: json
