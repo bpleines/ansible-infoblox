@@ -33,16 +33,11 @@
       Content-Type: "application/json"
     validate_certs: no
   register: reverse_dns_create
-  ignore_errors: true
+  failed_when: reverse_dns_create.status != 201 or reverse_dns_create.status != 200
   vars:
     reverse_zone_yml:
       fqdn: "192.168.1.0/24"
       zone_format: "IPV4"
- 
-- name: 'Idempotency check for reverse zone already existing'
-  fail: 
-    msg: "The reverse zone creation failed"
-  when: '"zone exists" in reverse_dns_create.json.text'
 
 - name: 'Set a fact for the local zone for further reuse'
   set_fact:
