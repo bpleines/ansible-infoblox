@@ -40,7 +40,15 @@
 
 - name: 'Set a fact for the local zone for further reuse'
   set_fact:
-    ansible_zone: 'ansible.local'  
+    ansible_zone: 'ansible.local'
+
+- name: Create a host record for the gateway address
+  nios_host_record:
+    name: 'gateway.ansible.local'
+    ipv4:
+      - address: '192.168.1.1'
+    state: present
+    provider: '{{ nios_provider }}'
 
 - name: 'Dynamically generate {{ host_count }} host records at next available ip'
   include_tasks: host_record_generation.yml
