@@ -30,6 +30,13 @@
     body: '{"fqdn":"192.168.1.0/24","zone_format":"IPV4"}'
     body_format: json
     validate_certs: no
+  register: reverse_dns_create
+  ignore_errors: true
+
+- name: 'Idempotency check for reverse zone already existing'
+  fail: 
+    msg: "The reverse zone creation failed"
+  when: '"Reverse zone already exists" not in reverse_dns_create.stdout'
 
 - name: 'Set a fact for the local zone for further reuse'
   set_fact:
