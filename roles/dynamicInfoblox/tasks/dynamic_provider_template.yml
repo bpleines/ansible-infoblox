@@ -1,0 +1,14 @@
+---
+- name: "Template out the WAPI shell script call with dynamic nios_provider.host"
+  template:
+    src: task_create-authoritative-reverse-zone.sh
+    dest: '{{ ansible_env.HOME }}/create-authoritative-reverse-zone.sh'
+    mode: "ugo+rwx"
+
+- name: "Call the WAPI shell script to add reverse zone"
+  shell: '{{ ansible_env.HOME }}/create-authoritative-reverse-zone.sh'
+
+- name: "Remove the templated script"
+  file:
+    path: '{{ ansible_env.HOME }}/create-authoritative-reverse-zone.sh'
+    state: absent
