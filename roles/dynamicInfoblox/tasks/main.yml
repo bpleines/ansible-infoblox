@@ -29,7 +29,8 @@
     password: '{{ nios_provider.password }}'
     #Extra space to avoid type detection
     body: "{{ reverse_zone_yml|to_json }}"
-    body_format: json
+    headers:
+      Content-Type: application/json
     validate_certs: no
   register: reverse_dns_create
   ignore_errors: true
