@@ -29,6 +29,7 @@
     password: '{{ nios_provider.password }}'
     body: '{"fqdn":"192.168.1.0/24","zone_format":"IPV4"}'
     body_format: json
+    validate_certs: no
 
 - name: 'Set a fact for the local zone for further reuse'
   set_fact:
