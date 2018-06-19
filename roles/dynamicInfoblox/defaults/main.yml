@@ -3,3 +3,8 @@ nios_provider:
   host: 192.168.1.2
   username: admin
   password: infoblox
+
+#These can optionally be overriden at the role level
+ansible_zone: ansible.local
+ansible_subnet: 192.168.1.0/24
+gateway_address: '{{ ansible_subnet|subnet_to_gateway }}.1'

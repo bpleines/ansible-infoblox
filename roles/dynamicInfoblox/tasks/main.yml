@@ -8,16 +8,15 @@
 
 - name: 'Create a test network subnet'
   nios_network: 
-    network: 192.168.1.0/24
+    network: '{{ ansible_subnet }}'
     comment: test network subnet to add host records to
     state: present
     provider: '{{ nios_provider }}'
 
 - name: 'Create a forward DNS local zone called ansible.local'
   nios_zone:
-    #Hardcoded here and set as fact later
-    name: ansible.local
-    comment: this is a local DNS zone called ansible.local
+    name: '{{ ansible_zone }}'
+    comment: (default) local DNS zone called {{ ansible_zone }}
     state: present
     provider: '{{ nios_provider }}'
 
@@ -43,21 +42,17 @@
 #      fqdn: "192.168.1.0/24"
 #      zone_format: "IPV4"
 
-- name: 'Set a fact for the local zone for further reuse'
-  set_fact:
-    ansible_zone: 'ansible.local'
-
 - name: Create a host record for the gateway address
   nios_host_record:
-    name: 'gateway.ansible.local'
+    name: 'gateway.{{ ansible_zone }}'
     ipv4:
-      - address: '192.168.1.1'
+      - address: '{{ gateway_address }}'
     state: present
     provider: '{{ nios_provider }}'
 
-- name: 'Dynamically generate {{ host_count }} host records at next available ip'
+- name: 'Dynamically generate {{ host_count }} host records at next available ipin {{ ansible_subnet }}'
   include_tasks: host_record_generation.yml
   loop_control:
     loop_var: count 
-  with_sequence: start=1 end={{ host_count|int }}
+  with_sequence: start=1 end={{ host_count }}
 ...

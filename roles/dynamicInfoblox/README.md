@@ -10,11 +10,9 @@ Requirements
 
 The infoblox-client installed on the targeted localhost machine. Ansible v >= 2.5 for the infoblox modules and lookup plugin
 
-There is an existing dependency to manually create the reverse lookup zone- hope to resolve this soon
-
 Role Variables
 --------------
-Example nios_provider supplied below. This should be vaulted for production use
+Example nios_provider supplied below. This should be vaulted in /vars for production use
 
 ```
 nios_provider:
@@ -31,12 +29,33 @@ Example Playbook
 
 Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
 
+The default invocation creates a single host in a local zone:
+
+    - hosts: localhost
+      connection: local
+      roles:
+         - { role: dynamicInfoblox }
+
+Override the default host_count to create several host records at a time:
+
     - hosts: localhost
       connection: local
       roles:
          - { role: dynamicInfoblox, host_count: 10 }
 
-This will create 10 host records at the next available IP Address
+Override the default zone:
+
+    - hosts: localhost
+      connection: local
+      roles:
+         - { role: dynamicInfoblox, ansible_zone: redhat.com }
+
+Override the default subnet. The default gateway_address is automated to reflect changes overriden here:
+
+    - hosts: localhost
+      connection: local
+      roles:
+         - { role: dynamicInfoblox, ansible_subnet: 255.255.255.0/24 }
 
 License
 -------

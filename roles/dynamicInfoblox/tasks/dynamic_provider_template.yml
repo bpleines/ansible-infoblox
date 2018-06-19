@@ -1,5 +1,5 @@
 ---
-- name: "Template out the WAPI shell script call with dynamic nios_provider.host"
+- name: "Template out the WAPI shell script call with supplied nios_provider.host"
   template:
     src: create-authoritative-reverse-zone.sh.j2
     dest: '{{ ansible_env.HOME }}/create-authoritative-reverse-zone.sh'
