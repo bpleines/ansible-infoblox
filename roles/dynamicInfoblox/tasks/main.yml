@@ -9,14 +9,14 @@
 - name: 'Create a test network subnet'
   nios_network: 
     network: '{{ ansible_subnet }}'
-    comment: test network subnet to add host records to
+    comment: Test network subnet to add host records to
     state: present
     provider: '{{ nios_provider }}'
 
 - name: 'Create a forward DNS local zone called ansible.local'
   nios_zone:
     name: '{{ ansible_zone }}'
-    comment: (default) local DNS zone called {{ ansible_zone }}
+    comment: DNS zone called {{ ansible_zone }}
     state: present
     provider: '{{ nios_provider }}'
 
