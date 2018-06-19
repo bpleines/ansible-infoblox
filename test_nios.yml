@@ -3,5 +3,12 @@
   hosts: localhost
   connection: local
 
+  pre_tasks:
+    - name: Ensure that the dynamic host_record_generation yml file lookup has the correctly supplied nios_provider information. Not logged for security
+      template:
+        src: templates/host_record_generation.yml.j2
+        dest: roles/dynamicInfoblox/tasks/host_record_generation.yml
+      no_log: true
+
   roles:
     - { role: dynamicInfoblox }

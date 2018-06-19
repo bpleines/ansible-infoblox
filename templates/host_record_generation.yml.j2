@@ -1,0 +1,21 @@
+---
+#The network, host ip/address, admin, and password will need to be adjusted for the infoblox installation
+#Default Infoblox server IP address is 192.168.1.2
+#Default username admin
+#Default password infoblox
+- name: 'Use the nios_next_ip lookup to get the next available IP address(es) for a given subnet'
+  set_fact: 
+    ipaddr: "{{ lookup('nios_next_ip', '{{ ansible_subnet }}', provider={'host': '{{ nios_provider.host }}', 'username': '{{ nios_provider.username }}', 'password': '{{ nios_provider.password }}'}) }}"
+  no_log: true
+
+#This should choose the next logical hostname count so this role can run cumulatively
+- name: Create a host record at the dynamically gathered address
+  nios_host_record:
+    name: 'host{{ host_count }}.{{ ansible_zone }}'
+    ipv4:
+      - address: '{{ item }}'
+    state: present
+    provider: '{{ nios_provider }}'
+  with_items:
+    - '{{ ipaddr }}'
+...
