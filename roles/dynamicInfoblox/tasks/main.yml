@@ -57,5 +57,5 @@
   include_tasks: host_record_generation.yml
   loop_control:
     loop_var: host_count 
-  with_sequence: start=1 end={{ host_count }}
+  with_sequence: start=1 end={{ host_count|int }}
 ...
