@@ -56,6 +56,6 @@
 - name: 'Dynamically generate {{ host_count }} host records at next available ipin {{ ansible_subnet }}'
   include_tasks: host_record_generation.yml
   loop_control:
-    loop_var: count 
+    loop_var: host_count 
   with_sequence: start=1 end={{ host_count }}
 ...
