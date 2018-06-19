@@ -53,7 +53,7 @@
     state: present
     provider: '{{ nios_provider }}'
 
-- name: 'Dynamically generate {{ host_count }} host records at next available ipin {{ ansible_subnet }}'
+- name: 'Dynamically generate {{ host_count }} host records at next available ip in {{ ansible_subnet }}'
   include_tasks: host_record_generation.yml
   loop_control:
     loop_var: host_count 
