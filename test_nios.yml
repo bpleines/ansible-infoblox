@@ -4,4 +4,4 @@
   connection: local
 
   roles:
-    - { role: dynamicInfoblox, host_count: 10 }
+    - { role: dynamicInfoblox }
