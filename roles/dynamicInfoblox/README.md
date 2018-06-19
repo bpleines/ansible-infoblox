@@ -24,10 +24,8 @@ nios_provider:
 Dependencies
 ------------
 
-Example Playbook
-----------------
-
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+Example Playbooks
+-----------------
 
 The default invocation creates a single host in a local zone:
 
@@ -48,14 +46,14 @@ Override the default zone:
     - hosts: localhost
       connection: local
       roles:
-         - { role: dynamicInfoblox, ansible_zone: redhat.com }
+         - { role: dynamicInfoblox, host_count: 10, ansible_zone: redhat.com }
 
 Override the default subnet. The default gateway_address is automated to reflect changes overriden here:
 
     - hosts: localhost
       connection: local
       roles:
-         - { role: dynamicInfoblox, ansible_subnet: 255.255.255.0/24 }
+         - { role: dynamicInfoblox, host_count: 10, ansible_zone: redhat, ansible_subnet: 255.255.255.0/24 }
 
 License
 -------
