@@ -5,7 +5,7 @@
 #Default password infoblox
 - name: 'Use the nios_next_ip lookup to get the next available IP address(es) for a given subnet'
   set_fact: 
-    next_ip: "{{ lookup('nios_next_ip', 'ansible_subnet', provider=nios_provider) }}"
+    next_ip: "{{ lookup('nios_next_ip', ansible_subnet, provider=nios_provider) }}"
   no_log: true
 
 #This should choose the next logical hostname count so this role can run cumulatively
