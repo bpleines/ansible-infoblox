@@ -5,7 +5,7 @@
 #Default password infoblox
 - name: 'Use the nios_next_ip lookup to get the next available IP address(es) for a given subnet'
   set_fact: 
-    ipaddr: "{{ lookup('nios_next_ip', '192.168.1.0/24', provider={'host': '192.168.1.2', 'username': 'admin', 'password': 'infoblox'}) }}"
+    ipaddr: "{{ lookup('nios_next_ip', '192.168.1.0/24', provider=nios_provider) }}"
   no_log: true
 
 #This should choose the next logical hostname count so this role can run cumulatively

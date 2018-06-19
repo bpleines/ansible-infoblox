@@ -2,12 +2,6 @@
 - name: Dynamically create host records using the next available ip address
   hosts: localhost
   connection: local
-
-  pre_tasks:
-    - name: Ensure that the dynamic host_record_generation yml file lookup has the correctly supplied nios_provider information. Not logged for security
-      template:
-        src: host_record_generation.yml.j2
-        dest: roles/dynamicInfoblox/tasks/host_record_generation.yml
-
+ 
   roles:
     - { role: dynamicInfoblox }
