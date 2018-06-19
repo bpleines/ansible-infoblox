@@ -6,6 +6,6 @@
 #
 # Copyright (C) 2018 Infoblox. All Rights Reserved.
 
-curl -k -u {{ nios_user }}:{{ nios.password }} -H 'Content-Type:application/json' \
+curl -k -u {{ nios_username }}:{{ nios.password }} -H 'Content-Type:application/json' \
  -X POST 'https://{{ nios_provider.host }}/wapi/v2.6/zone_auth' \
  --data '{"fqdn":"{{ ansible_subnet }}","zone_format":"IPV4"}'
