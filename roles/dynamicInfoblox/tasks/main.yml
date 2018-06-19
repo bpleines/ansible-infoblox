@@ -20,8 +20,8 @@
     state: present
     provider: '{{ nios_provider }}'
     # Need to sort out some details here
-    grid_primary:
-      - name: 'gridmaster.{{ ansible_zone }}'
+    #grid_primary:
+    #  - name: 'gridmaster.{{ ansible_zone }}'
 
 - name: 'Create a reverse DNS zone called 1.168.192.in-appr.arpa'
   include_tasks: dynamic_provider_template.yml
