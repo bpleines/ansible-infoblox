@@ -42,7 +42,7 @@
   register: reverse_dns_create
   vars:
     reverse_zone_yml:
-      fqdn: "{{ nios_subnet }}"
+      fqdn: "{{ ansible_subnet }}"
       zone_format: "IPV4"
 
 - name: Create a host record for the gateway address
