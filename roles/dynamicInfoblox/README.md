@@ -26,6 +26,12 @@ Dependencies
 
 Example Playbooks
 -----------------
+Role defaults can be overriden at either the playbook or role level:
+
+ansible_playbook test_nios.yml -e "host_count=10"
+ansible-playbook test_nios.yml -e "host_count=10 ansible_zone=redhat.com"
+ansible-playbook test_nios.yml -e "host_count=10 ansible_zone=redhat.com ansible_subnet=255.255.255.0/24"
+
 
 The default invocation creates a single host in a local zone:
 
