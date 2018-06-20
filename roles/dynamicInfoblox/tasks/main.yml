@@ -35,7 +35,10 @@
     password: '{{ nios_provider.password }}'
     body: "{{ reverse_zone_yml|to_json }}"
     force_basic_auth: true
-    status_code: 201
+    #201 signifies success
+    #400 signifies existing entry
+    #both should signify success
+    status_code: 201,400
     headers:
       Content-Type: "application/json"
     validate_certs: no
