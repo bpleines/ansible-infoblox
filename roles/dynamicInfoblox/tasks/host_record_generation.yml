@@ -1,4 +1,13 @@
 ---
+- name: Initialize a running fact called ansible_host_count as a fact to avoid overwrites
+  set_fact:
+    ansible_host_count: 1
+  when: ansible_host_count is undefined
+
+- name: Increment ansible_host_count for each host
+  set_fact:
+    ansible_host_count: '{{ ansible_host_count|int+1 }}'
+
 #The network, host ip/address, admin, and password will need to be adjusted for the infoblox installation
 #Default Infoblox server IP address is 192.168.1.2
 #Default username admin
@@ -11,7 +20,7 @@
 #This should choose the next logical hostname count so this role can run cumulatively
 - name: Create a host record at the dynamically gathered address
   nios_host_record:
-    name: 'host{{ count }}.{{ ansible_zone }}'
+    name: 'host{{ ansible_host_count }}.{{ ansible_zone }}'
     ipv4:
       - address: '{{ item }}'
     state: present
