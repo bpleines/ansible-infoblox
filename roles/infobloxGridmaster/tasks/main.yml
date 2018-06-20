@@ -1,0 +1,17 @@
+---
+- name: 'Start running gridmaster commands'
+  uri:
+    url: https://127.0.0.1/wapi/v2.6/grid
+    method: GET
+    user: '{{ nios_provider.username }}'
+    password: '{{ nios_provider.password }}'
+    force_basic_auth: true
+    #201 signifies successful creation
+    #400 signifies existing entry
+    #both should signify a successful WAPI call
+    status_code: 201,400
+    headers:
+      Content-Type: "application/json"
+    validate_certs: no
+  register: gridmaster_info
+...
