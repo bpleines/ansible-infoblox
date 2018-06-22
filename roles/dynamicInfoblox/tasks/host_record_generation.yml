@@ -26,5 +26,5 @@
 - name: "Increment the ansible_host_count varible looked up from '{{ role_path }}/files/host_record_count.txt"
   copy:
     content: '{{ ansible_host_count|int + 1 }}'
-    dest: '{{ role_path }}/files/host_record_count.txt"
+    dest: '{{ role_path }}/files/host_record_count.txt'
 ...
