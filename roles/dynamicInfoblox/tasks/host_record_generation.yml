@@ -1,17 +1,8 @@
 ---
-- name: Initialize a running fact called ansible_host_count as a fact to avoid overwrites
+- name: Keep a running count of what hostname has been provisioned so far using a file
   set_fact:
-    ansible_host_count: 1
-  when: ansible_host_count is undefined
+    ansible_host_count: "{{ lookup('file', role_path/files/host_record_count.txt) }}"
 
-- name: Increment ansible_host_count for each host
-  set_fact:
-    ansible_host_count: '{{ ansible_host_count|int+1 }}'
-
-#The network, host ip/address, admin, and password will need to be adjusted for the infoblox installation
-#Default Infoblox server IP address is 192.168.1.2
-#Default username admin
-#Default password infoblox
 - name: 'Use the nios_next_ip lookup to get the next available IP address(es) for a given subnet'
   set_fact: 
     next_ip: "{{ lookup('nios_next_ip', ansible_subnet, provider=nios_provider) }}"
@@ -27,4 +18,9 @@
     provider: '{{ nios_provider }}'
   with_items:
     - '{{ next_ip }}'
+
+- name: "Increment the ansible_host_count varible looked up from '{{ role_path }}/files/host_record_count.txt"
+  copy:
+    content: '{{ ansible_host_count|int + 1 }}'
+    dest: '{{ role_path }}/files/host_record_count.txt"
 ...
