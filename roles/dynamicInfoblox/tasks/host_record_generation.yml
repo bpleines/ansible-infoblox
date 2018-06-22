@@ -1,7 +1,11 @@
 ---
-- name: Keep a running count of what hostname has been provisioned so far using a file
+- name: Set the stored_host_count path
   set_fact:
-    ansible_host_count: "{{ lookup('file', role_path/files/host_record_count.txt) }}"
+    stored_host_count: "{{ role_path }}/files/host_record_count.txt"
+
+- name: Keep a running count of total hostcount that have been provisioned so far using a file
+  set_fact:
+    ansible_host_count: "{{ lookup('file', stored_host_count) }}"
 
 - name: 'Use the nios_next_ip lookup to get the next available IP address(es) for a given subnet'
   set_fact: 
