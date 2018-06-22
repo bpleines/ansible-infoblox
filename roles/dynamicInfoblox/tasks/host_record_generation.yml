@@ -4,6 +4,7 @@
   set_fact:
     stored_host_count: "{{ role_path }}/files/host_record_count.txt"
 
+#Using a lookup like this allows for you to cumulatively stack hostnames in different subnets without having hostnames ovewrite each other between runs
 - name: Keep a running count of total hostcount that have been provisioned so far using a file
   set_fact:
     ansible_host_count: "{{ lookup('file', stored_host_count) }}"
