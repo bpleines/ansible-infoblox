@@ -1,0 +1,10 @@
+---
+- name: Reset the stored host count
+  hosts: localhost
+  connection: local
+  tasks:
+    #Reset the running total host count
+    - name: "Reset the stored_host_count back to 1"
+      copy:
+        content: 1
+        dest: 'roles/dynamicInfoblox/files/host_record_count.txt'

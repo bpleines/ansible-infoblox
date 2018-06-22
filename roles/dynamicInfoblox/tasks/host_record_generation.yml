@@ -1,4 +1,5 @@
 ---
+#Set this fact separately to then use in the lookup plugin
 - name: Set the stored_host_count path
   set_fact:
     stored_host_count: "{{ role_path }}/files/host_record_count.txt"
@@ -12,7 +13,6 @@
     next_ip: "{{ lookup('nios_next_ip', ansible_subnet, provider=nios_provider) }}"
   no_log: true
 
-#This should choose the next logical hostname count so this role can run cumulatively
 - name: Create a host record at the dynamically gathered address
   nios_host_record:
     name: 'host{{ ansible_host_count }}.{{ ansible_zone }}'
