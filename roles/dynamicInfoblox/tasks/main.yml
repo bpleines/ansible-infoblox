@@ -50,7 +50,7 @@
 
 - name: Create a host record for the gateway address
   nios_host_record:
-    name: 'gateway{{ ansible_subnet | replace(".","_") }}.{{ ansible_zone }}'
+    name: 'gateway{{ ansible_subnet | ipaddr("address") |replace(".","_") }}.{{ ansible_zone }}'
     ipv4:
       - address: '{{ gateway_address }}'
     state: present
