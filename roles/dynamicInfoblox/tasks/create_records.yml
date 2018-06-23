@@ -1,0 +1,66 @@
+---
+#Customers typically use the default view
+#- name: 'Create a dnsview named ansible'
+#  nios_dns_view:
+#    name: ansible
+#    state: present
+#    provider: '{{ nios_provider }}'
+
+- name: 'Create a test network subnet'
+  nios_network: 
+    network: '{{ ansible_subnet }}'
+    comment: Test network subnet to add host records to
+    state: present
+    provider: '{{ nios_provider }}'
+
+- name: 'Create a forward DNS local zone called ansible.local'
+  nios_zone:
+    name: '{{ ansible_zone }}'
+    comment: DNS zone called {{ ansible_zone }}
+    state: present
+    provider: '{{ nios_provider }}'
+    # Need to sort out some details here
+    #grid_primary:
+    #  - name: 'gridmaster.{{ ansible_zone }}'
+
+#Uri module idempotecy preferred
+#- name: 'Create a reverse DNS zone'
+#  include_tasks: dynamic_provider_template.yml
+
+- name: 'Create a reverse DNS mapping to forward DNS zone'
+  uri:
+    url: https://{{ nios_provider.host }}/wapi/{{ wapi_version }}/zone_auth
+    method: POST
+    user: '{{ nios_provider.username }}'
+    password: '{{ nios_provider.password }}'
+    body: "{{ reverse_zone_yml|to_json }}"
+    force_basic_auth: true
+    #201 signifies successful creation
+    #400 signifies existing entry
+    #both should signify a successful WAPI call
+    status_code: 201,400
+    headers:
+      Content-Type: "application/json"
+    validate_certs: no
+  register: reverse_dns_create
+  vars:
+    reverse_zone_yml:
+      fqdn: "{{ ansible_subnet }}"
+      zone_format: "IPV4"
+
+- name: Create a host record for the gateway address
+  nios_host_record:
+    name: 'gateway{{ ansible_subnet | strip_cidr | replace(".","_") }}.{{ ansible_zone }}'
+    ipv4:
+      - address: '{{ gateway_address }}'
+    state: present
+    provider: '{{ nios_provider }}'
+
+#Generating records this way should be for demo purposes
+#Normal scenario would be to iterate over a dictionary/list of hosts
+- name: 'Dynamically generate {{ host_count }} host records at next available ip in {{ ansible_subnet }}'
+  include_tasks: host_record_generation.yml
+  loop_control:
+    loop_var: count 
+  with_sequence: start=1 end={{ host_count }}
+...
