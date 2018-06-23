@@ -65,7 +65,7 @@ fi
 echo "Creating snapshot, please wait."
 RESULT=`curl -s -k --cookie '/tmp/wapi.auth' -H 'Content-Type:application/json' \
     -X POST 'https://{{ nios_provider.host }}/wapi/{{ wapi_version }}/dbsnapshot?_function=save_db_snapshot' \
-    --data '{"comment":"{{ snapsho_comment }}"}'`
+    --data '{"comment":"{{ snapshot_comment }}"}'`
 NEW_REF=`echo $RESULT | jq ._ref | sed 's/"//g'`
 if [ $NEW_REF = "null" ] ; then
 	echo "Creating snapshot failed."
