@@ -27,6 +27,15 @@ Dependencies
 Example Playbooks
 -----------------
 
+```
+ansible_playbook test_nios.yml -e "host_count=10" 
+ansible-playbook test_nios.yml -e "host_count=10 ansible_zone=redhat.com"
+ansible-playbook test_nios.yml -e "host_count=10 ansible_zone=redhat.com ansible_subnet=255.255.255.0/24"
+```
+
+Example Roles
+-----------------
+
 The default invocation creates a single host in a local zone:
 
     - hosts: localhost

@@ -63,4 +63,17 @@
   loop_control:
     loop_var: count 
   with_sequence: start=1 end={{ host_count }}
+
+- block:
+    - name: Ensure that the jq package is installed
+      yum:
+        name: jq
+        state: installed
+
+    - name: Generate a snapshot of the existing records
+      include_tasks: dynamic_provider_shell_template.yml
+      vars:
+        shell_template: 'snapshot'
+        comment: 'ansible_snapshot'
+  when: snapshot_comment is defined
 ...
