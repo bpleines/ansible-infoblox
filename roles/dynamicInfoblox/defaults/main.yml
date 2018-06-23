@@ -9,3 +9,4 @@ host_count: 1
 ansible_zone: ansible.local
 ansible_subnet: 192.168.1.0/24
 gateway_address: '{{ ansible_subnet|subnet_to_gateway }}.1'
+wapi_version: 'v2.7'

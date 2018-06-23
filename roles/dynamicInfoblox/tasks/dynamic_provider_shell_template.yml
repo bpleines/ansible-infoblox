@@ -1,0 +1,14 @@
+---
+- name: "Template out the WAPI shell script call with supplied nios_provider.host"
+  template:
+    src: '{{ shell_template }}.sh.j2'
+    dest: '{{ ansible_env.HOME }}/{{ shell_template }}.sh'
+    mode: "ugo+rwx"
+
+- name: "Call the WAPI shell script to add reverse zone"
+  shell: '{{ ansible_env.HOME }}/{{ shell_template }}.sh'
+
+- name: "Remove the templated script"
+  file:
+    path: '{{ ansible_env.HOME }}/{{ shell_template }}.sh'
+    state: absent

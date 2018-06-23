@@ -29,7 +29,7 @@
 
 - name: 'Create a reverse DNS mapping to forward DNS zone'
   uri:
-    url: https://{{ nios_provider.host }}/wapi/v2.6/zone_auth
+    url: https://{{ nios_provider.host }}/wapi/{{ wapi_version }}/zone_auth
     method: POST
     user: '{{ nios_provider.username }}'
     password: '{{ nios_provider.password }}'
