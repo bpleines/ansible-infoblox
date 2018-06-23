@@ -66,9 +66,9 @@
 
 - block:
     - name: Ensure that the jq package is installed
-      yum:
+      dnf:
         name: jq
-        state: installed
+        state: present
 
     - name: Generate a snapshot of the existing records
       include_tasks: dynamic_provider_shell_template.yml
