@@ -1,0 +1,61 @@
+#Still under development - need to test grabbing cookie
+- name: "Poll for an existing snapshot"
+  uri:
+    url: https://{{ nios_provider.host }}/wapi/v2.7/dbsnapshot
+    method: GET
+    user: '{{ nios_provider.username }}'
+    password: '{{ nios_provider.password }}'
+    body: '{{ reverse_zone_yml|to_json }}'
+    force_basic_auth: true
+    #status_code: 201,400
+    headers:
+      Content-Type: "application/json"
+    validate_certs: no
+  register: existing_snapshot
+
+- name: "Debug the snashot return for fields timestamp, comment, and cookie"
+  debug:
+    msg: '{{ existing_snapshot }}'
+
+- name: "Create snapshot"
+  uri:
+    url: https://{{ nios_provider.host }}/wapi/v2.7/dbsnapshot?_function=save_db_snapshot
+    method: POST
+    user: '{{ nios_provider.username }}'
+    password: '{{ nios_provider.password }}'
+    body: '{{ reverse_zone_yml|to_json }}'
+    force_basic_auth: true
+    #status_code: 201,400
+    headers:
+      Content-Type: "application/json"
+    validate_certs: no
+  register: created_snapshot
+
+- name: "Debug for result field"
+  debug:
+    msg: '{{ created_snapshot }}'
+
+- name: "Check to see that the db snapshot was created"
+  uri:
+    url: https://{{ nios_provider.host }}/wapi/v2.7/dbsnapshot
+    method: GET
+    user: '{{ nios_provider.username }}'
+    password: '{{ nios_provider.password }}'
+    body: '{{ reverse_zone_yml|to_json }}'
+    force_basic_auth: true
+    #status_code: 201,400
+    headers:
+      Content-Type: "applicationo/json"
+    validate_certs: no
+  register: verify_snapshot
+
+- name: "Verify snpashot creation"
+  debug:
+    msg: '{{ verify_snapshot }}'
+
+- name: Remove the cookie file
+  file:
+    path: /tmp/wapi.auth
+    state: absent
+...
+  
