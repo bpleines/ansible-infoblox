@@ -34,6 +34,13 @@ ansible-playbook test_nios.yml -e "host_count=10 ansible_zone=redhat.com"
 ansible-playbook test_nios.yml -e "host_count=10 ansible_zone=redhat.com ansible_subnet=255.255.255.0/24"
 ```
 
+There is also the ability to create a snapshot of the existing configuration at any time
+```
+ansible_playbook test_nios.yml -e "snapshot_comment=ansible"
+```
+
+Restoring the snapshot is current a manual step but I hope to have automation here soon too.
+
 The default invocation creates a single host in a local zone:
 
     - hosts: localhost
