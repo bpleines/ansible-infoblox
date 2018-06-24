@@ -26,6 +26,7 @@ Example Playbooks
 Role defaults for dynamicInfoblox can be overriden at either the playbook or role level:
 
 ```
+ansible-playbook create_dynamic_records.yml
 ansible_playbook create_dynamic_records.yml -e "host_count=10"
 ansible-playbook create_dynamic_records.yml -e "ansible_zone=redhat.com"
 ansible-playbook ceate_dynamic_records.yml -e "ansible_subnet=10.10.10.0/24"
@@ -38,14 +39,14 @@ ansible_playbook take_snapshot.yml
 
 Restoring the snapshot is current a manual step but I hope to have automation here soon too.
 
-The default invocation creates a single host in a local zone:
+The default invocation creates a forward/reverse zone, subnet, and gateway address but not a record
 
     - hosts: localhost
       connection: local
       roles:
          - { role: dynamicInfoblox }
 
-Override the default host_count to create several host records at a time:
+Specify a host_count to create several host records at a time:
 
     - hosts: localhost
       connection: local

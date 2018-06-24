@@ -63,4 +63,5 @@
   loop_control:
     loop_var: count 
   with_sequence: start=1 end={{ host_count }}
+  when: host_count is defined
 ...
