@@ -1,11 +1,12 @@
 ---
 - name: Fail the play and suggest that user needs to supply the fqdn for the gridmaster
   fail:
-    msg: "Please specify the fqdn for the gridmaster to start the dns service on"
+    msg: "Please specify the gridmaster_fqdn variable to start the dns service on"
   when: gridmaster_fqdn is undefined
 
 - name: Gather the fqdn of the gridmaster dynamically
   include_tasks: dynamic_provider_shell_template.yml
+  register: gridmaster_info
   vars:
     shell_template: 'gridmasterFqdn'
 
