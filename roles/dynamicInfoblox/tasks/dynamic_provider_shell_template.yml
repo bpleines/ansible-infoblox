@@ -5,7 +5,7 @@
     dest: '{{ ansible_env.HOME }}/{{ shell_template }}.sh'
     mode: "ugo+rwx"
 
-- name: "Call the WAPI shell script to add reverse zone"
+- name: "Call the templated WAPI shell script"
   shell: '{{ ansible_env.HOME }}/{{ shell_template }}.sh'
 
 - name: "Remove the templated script"
