@@ -1,0 +1,5 @@
+#!/bin/sh
+curl -k -s -u {{ nios_provider.username }}:{{ nios_provider.password }} -H 'content-type:application/json' -X POST "https://{{ nios_provider.host }}/wapi/{{ wapi_version }}/request" -d '[{"method": "STATE:ASSIGN","data":{"member_name":"{{ gridmaster_fqdn }}"}},{"method":"GET","object": "member:dns","data": {"host_name":"##STATE:member_name:##"},"assign_state": {"host_ref": "_ref"},"enable_substitution": true,"discard": true},{ "method": "PUT", "object": "##STATE:host_ref:##","enable_substitution": true,"data": {"enable_dns":true}},{"method": "STATE:DISPLAY"}]'
+# Clean up, remove cookie file
+#rm -f /tmp/wapi.auth
+

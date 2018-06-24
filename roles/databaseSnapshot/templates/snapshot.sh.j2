@@ -32,7 +32,7 @@
 # 2) Before taking a snapshot, check to see if there is an existing one.
 # If a non-zero timestamp is returned, proceed with extracting the
 # timestamp field and comment field.
-CHECK_SNAPSHOT=`curl -s -k -u admin:infoblox -H 'Content-Type:application/json' \
+CHECK_SNAPSHOT=`curl -s -k -u {{ nios_provider.username }}:{ nios_provider.password }} -H 'Content-Type:application/json' \
   --cookie-jar '/tmp/wapi.auth' \
   -X GET 'https://{{ nios_provider.host }}/wapi/{{ wapi_version }}/dbsnapshot'`
 OLD_TIMESTAMP_SEC=`echo "$CHECK_SNAPSHOT" | jq .[].timestamp | sed 's/"//g'`
