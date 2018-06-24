@@ -3,12 +3,12 @@ Dynamically create host records in Infoblox using Ansible!
 dynamicInfoblox
 =========
 
-A basic role using some of Infoblox's new integration in Core v2.5 to dynamically add a sequence of host records at the next available ip address
+A role using some of Infoblox's new integration in Core v2.5 to dynamically add a sequence of host records at the next available ip address. Additional functionality included to take a snapshot of the existing Gridmaster.
 
 Requirements
 ------------
 
-The infoblox-client installed on the targeted localhost machine. Ansible v >= 2.5 for the infoblox modules and lookup plugin
+The infoblox-client installed on the targeted localhost machine. Ansible v >= 2.5 for the infoblox modules and lookup plugin. Wapi v2.7 required for the snapshot script.
 
 Role Variables
 --------------
