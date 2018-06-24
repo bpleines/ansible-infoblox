@@ -29,7 +29,7 @@ Role defaults for dynamicInfoblox can be overriden at either the playbook or rol
 ansible-playbook create_dynamic_records.yml
 ansible_playbook create_dynamic_records.yml -e "host_count=10"
 ansible-playbook create_dynamic_records.yml -e "ansible_zone=redhat.com"
-ansible-playbook ceate_dynamic_records.yml -e "ansible_subnet=10.10.10.0/24"
+ansible-playbook create_dynamic_records.yml -e "ansible_subnet=10.10.10.0/24"
 ```
 
 There is also the ability to create a snapshot of the existing configuration at any time
