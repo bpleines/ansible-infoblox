@@ -1,9 +1,6 @@
 Dynamically create host records in Infoblox using Ansible!
 
-dynamicInfoblox
-=========
-
-A role using some of Infoblox's new integration in Core v2.5 to add a sequence of host records at the next available ip address. Additional functionality included to take a snapshot of the existing Gridmaster.
+A couple roles using some of Infoblox's new integration in Core v2.5 to add a sequence of host records at the next available ip address. Additional functionality included to take a snapshot of the existing database.
 
 Requirements
 ------------
@@ -30,8 +27,8 @@ Role defaults for dynamicInfoblox can be overriden at either the playbook or rol
 
 ```
 ansible_playbook create_dynamic_records.yml -e "host_count=10"
-ansible-playbook create_dynamic_records.yml -e "host_count=10 ansible_zone=redhat.com"
-ansible-playbook ceate_dynamic_records.yml -e "host_count=10 ansible_zone=redhat.com ansible_subnet=10.10.10.0/24"
+ansible-playbook create_dynamic_records.yml -e "ansible_zone=redhat.com"
+ansible-playbook ceate_dynamic_records.yml -e "ansible_subnet=10.10.10.0/24"
 ```
 
 There is also the ability to create a snapshot of the existing configuration at any time
@@ -60,22 +57,18 @@ Override the default zone:
     - hosts: localhost
       connection: local
       roles:
-         - { role: dynamicInfoblox, host_count: 10, ansible_zone: redhat.com }
+         - { role: dynamicInfoblox, ansible_zone: redhat.com }
 
 Override the default subnet. The default gateway_address is automated to reflect changes overriden here:
 
     - hosts: localhost
       connection: local
       roles:
-         - { role: dynamicInfoblox, host_count: 10, ansible_zone: redhat, ansible_subnet: 10.10.10.0/24 }
-
-License
--------
-
-BSD
+         - { role: dynamicInfoblox, ansible_subnet: 10.10.10.0/24 }
 
 Author Information
 ------------------
-
+```
 Branden Pleines
 Bret Pleines
+```
