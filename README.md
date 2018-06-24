@@ -37,7 +37,7 @@ There is also the ability to create a snapshot of the database at any time
 ansible-playbook take_snapshot.yml
 ```
 
-And additional playbook is included to start the dns service on the gridmaster
+An additional playbook is included to start the dns service on the gridmaster
 ```
 ansible-playbook start_dns_service.yml -e 'gridmaster_fqdn=192.168.1.2'
 ```
