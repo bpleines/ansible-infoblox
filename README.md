@@ -31,7 +31,7 @@ Role defaults can be overriden at either the playbook or role level:
 ```
 ansible_playbook test_nios.yml -e "host_count=10"
 ansible-playbook test_nios.yml -e "host_count=10 ansible_zone=redhat.com"
-ansible-playbook test_nios.yml -e "host_count=10 ansible_zone=redhat.com ansible_subnet=255.255.255.0/24"
+ansible-playbook test_nios.yml -e "host_count=10 ansible_zone=redhat.com ansible_subnet=10.10.10.0/24"
 ```
 
 There is also the ability to create a snapshot of the existing configuration at any time
@@ -67,7 +67,7 @@ Override the default subnet. The default gateway_address is automated to reflect
     - hosts: localhost
       connection: local
       roles:
-         - { role: dynamicInfoblox, host_count: 10, ansible_zone: redhat, ansible_subnet: 255.255.255.0/24 }
+         - { role: dynamicInfoblox, host_count: 10, ansible_zone: redhat, ansible_subnet: 10.10.10.0/24 }
 
 License
 -------
@@ -78,3 +78,4 @@ Author Information
 ------------------
 
 Branden Pleines
+Bret Pleines
