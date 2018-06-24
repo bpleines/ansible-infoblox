@@ -1,0 +1,7 @@
+---
+- name: Take or restore an existing database snapshot
+  hosts: localhost
+  connection: local
+ 
+  roles:
+    - { role: databaseSnapshot }

@@ -3,7 +3,7 @@ Dynamically create host records in Infoblox using Ansible!
 dynamicInfoblox
 =========
 
-A role using some of Infoblox's new integration in Core v2.5 to dynamically add a sequence of host records at the next available ip address. Additional functionality included to take a snapshot of the existing Gridmaster.
+A role using some of Infoblox's new integration in Core v2.5 to add a sequence of host records at the next available ip address. Additional functionality included to take a snapshot of the existing Gridmaster.
 
 Requirements
 ------------
@@ -26,17 +26,17 @@ Dependencies
 
 Example Playbooks
 -----------------
-Role defaults can be overriden at either the playbook or role level:
+Role defaults for dynamicInfoblox can be overriden at either the playbook or role level:
 
 ```
-ansible_playbook test_nios.yml -e "host_count=10"
-ansible-playbook test_nios.yml -e "host_count=10 ansible_zone=redhat.com"
-ansible-playbook test_nios.yml -e "host_count=10 ansible_zone=redhat.com ansible_subnet=10.10.10.0/24"
+ansible_playbook create_dynamic_records.yml -e "host_count=10"
+ansible-playbook create_dynamic_records.yml -e "host_count=10 ansible_zone=redhat.com"
+ansible-playbook ceate_dynamic_records.yml -e "host_count=10 ansible_zone=redhat.com ansible_subnet=10.10.10.0/24"
 ```
 
 There is also the ability to create a snapshot of the existing configuration at any time
 ```
-ansible_playbook test_nios.yml -e "snapshot_comment=ansible"
+ansible_playbook take_snapshot.yml
 ```
 
 Restoring the snapshot is current a manual step but I hope to have automation here soon too.

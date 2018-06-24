@@ -1,0 +1,7 @@
+---
+- name: Dynamically create host records using the next available ip address
+  hosts: localhost
+  connection: local
+ 
+  roles:
+    - { role: dynamicInfoblox }
