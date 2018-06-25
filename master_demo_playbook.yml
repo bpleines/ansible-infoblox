@@ -1,0 +1,8 @@
+---
+- name: Create a master demo pulling in all concepts to demonstrate automation power
+  hosts: localhost
+  connection: local
+ 
+  roles:
+    - { role: dynamicInfoblox }
+    

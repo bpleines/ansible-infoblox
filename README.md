@@ -4,7 +4,8 @@ A collection of roles featuring some of Infoblox's new integration in Core v2.5 
 1. Add a sequence of host records at the next available ip address 
 2. Update a service
 3. Take a configuration snapshot
-4. Provision a gridmaster member
+4. Provision a gridmaster candidate
+5. Provision a gridmember
 
 Requirements
 ------------
@@ -49,7 +50,9 @@ ansible-playbook take_snapshot.yml
 
 Note: Restoring the snapshot is currently a manual step but I hope to have automation here soon too.
 
-A final playbook requires a second configured Infoblox instance. It provisions the second instance as a gridmaster candidate assuming nios_provider as the gridmaster. It requires 4 variables to be defined: 
+These final playbooks require a second configured Infoblox instance. 
+
+This first playbook provisions the second instance as a gridmaster candidate assuming nios_provider as the gridmaster. It requires 4 variables to be defined: 
 1. master_candidate_name
 2. master_candidate_address
 3. master_candidate_gateway
@@ -57,6 +60,16 @@ A final playbook requires a second configured Infoblox instance. It provisions t
 ```
 ansible-playbook provision_gridmaster_candidate.yml -e 'master_candidate_name=gmc.ansible.local master_candidate_address=192.168.2.2 master_candidate_gateway=192.168.2.254 master_candidate_subnet_mask=255.255.255.0'
 ```
+
+This one provisions a grid member. It requires 4 variables to be defined:
+1. member_name
+2. member_address
+3. member_gateway
+4. member_subnet_mask
+```
+ansible-playbook provision_gridmember.yml -e 'member_name=gmc.ansible.local member_address=192.168.2.2 member_gateway=192.168.2.254 member_subnet_mask=255.255.255.0'
+```
+
 
 Role Calls
 -----------------
@@ -132,6 +145,13 @@ Provision a new gridmaster candidate:
       roles:
          - { role: provisionGridmasterCandidate, master_candidate_name:gmc.ansible.local, master_candidate_address: 192.168.2.2, master_candidate_gateway: 192.168.2.254, master_candidate_subnet_mask:255.255.255.0 }
 
+
+Provision a new gridmember:
+
+    - hosts: localhost
+      connection: local
+      roles:
+         - { role: provisionGridmember, member_name:gmc.ansible.local, member_address: 192.168.2.2, member_gateway: 192.168.2.254, member_subnet_mask:255.255.255.0 }
 
 Author Information
 ------------------

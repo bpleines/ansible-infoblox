@@ -1,0 +1,21 @@
+---
+- name: Fail the play and suggest that user needs to supply the required member values
+  fail:
+    msg: "Please ensure the following 4 values are supplied: member_name (fqdn only!), member_address, member_gateway, member_subnet_mask"
+  when: member_name is undefined or member_address is undefined or member_gateway is undefined or member_subnet_mask is undefined
+
+- name: Provision a gridmaster candidate
+  include_tasks: dynamic_provider_shell_template.yml
+  vars:
+    shell_template: 'provision_gmc'
+
+- name: Provision a gridmaster member
+  include_tasks: dynamic_provider_shell_template.yml
+  vars:
+    shell_template: 'provision_v825'
+
+- name: Remove the generated cookie file
+  file:
+    path: '/tmp/wapi.auth'
+    state: absent
+...

@@ -1,0 +1,7 @@
+---
+- name: Provision a gridmember
+  hosts: localhost
+  connection: local
+ 
+  roles:
+    - { role: provisionGridmember }
