@@ -1,6 +1,6 @@
 Dynamically create host records in Infoblox using Ansible!
 
-A collection of roles using some of Infoblox's new integration in Core v2.5 to add a sequence of host records at the next available ip address. Additional functionality included to take a snapshot of the existing database and start the dns service on a specified gridmaster.
+A collection of roles using some of Infoblox's new integration in Core v2.5 to:  1) add a sequence of host records at the next available ip address 2) start the dns service on a specified gridmaster 3) 
 
 Requirements
 ------------
@@ -32,17 +32,22 @@ ansible-playbook create_dynamic_records.yml -e "ansible_zone=redhat.com"
 ansible-playbook create_dynamic_records.yml -e "ansible_subnet=10.10.10.0/24"
 ```
 
-There is also the ability to create a snapshot of the database at any time
-```
-ansible-playbook take_snapshot.yml
-```
-
 An additional playbook is included to start the dns service on the gridmaster
 ```
 ansible-playbook start_dns_service.yml -e 'gridmaster_fqdn=192.168.1.2'
 ```
 
+There is also the ability to create a snapshot of the database at any time
+```
+ansible-playbook take_snapshot.yml
+```
+
 Restoring the snapshot is current a manual step but I hope to have automation here soon too.
+
+A final playbook requires a second configured Infoblox instance. It provisions the second instance as a gridmaster candidate. It requires 4 variables to be defined: 1) master_candidate_name, 2) master_candidate_address, 3) master_candidate_gateway, 4) master_candidate_subnet_mask
+```
+ansible-playbook provision_gridmaster_candidate.yml -e 'master_candidate_name=gmc.ansible.local master_candidate_address=192.168.2.2, master_candidate_gateway=192.168.2.254, master_candidate_subnet_mask=255.255.255.0'
+```
 
 The default invocation creates a forward/reverse zone, subnet, and gateway address but not any records
 
