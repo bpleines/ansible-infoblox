@@ -17,10 +17,7 @@
   when: state == 'started'
 
 - block:
-    - name: Fail the play and suggest that user needs to supply the service_option
-      fail:
-        msg: "Please specify a restart service_option ['ALL', 'DHCP', 'DNS']"
-    #Default invocation
+    #Default invocation is all
     - name: Restart the '{{ service_option }} on {{ gridmember_fqdn }}'
       include_tasks: dynamic_provider_shell_template.yml
       vars:
