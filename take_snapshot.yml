@@ -1,7 +1,7 @@
 ---
-- name: Take or restore an existing database snapshot
+- name: Take a Infoblox configuration snapshot
   hosts: localhost
   connection: local
  
   roles:
-    - { role: databaseSnapshot }
+    - { role: snapshotConfiguration }
