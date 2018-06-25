@@ -1,8 +1,9 @@
 ---
-- name: Create a master demo pulling in all concepts to demonstrate automation power
+- name: Create a master demo pulling in all concepts to demonstrate grand automation power
   hosts: localhost
   connection: local
  
   roles:
-    - { role: dynamicInfoblox }
-    
+    - { role: dynamicInfoblox, host_count: 1 }
+    - { role: dyanmicInfoblox, host_count: 5, ansible_zone: redhat.com } 
+    - { role: dynamicInfoblox, host_count: 3, ansible_subnet:    

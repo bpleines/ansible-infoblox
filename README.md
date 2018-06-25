@@ -35,9 +35,13 @@ ansible-playbook create_dynamic_records.yml -e "ansible_zone=redhat.com"
 ansible-playbook create_dynamic_records.yml -e "ansible_subnet=10.10.10.0/24"
 ```
 
-An additional playbook is included to publish updates to gridmember services:
+An additional playbook is included to start the gridmaster or gridmember DNS service:
 ```
 ansible-playbook update_service.yml -e 'gridmember_fqdn=192.168.1.2 state=started'
+```
+
+A slightly different call of this same playbook will restart the gridmaster or gridmember service dependingon a supplied service_option for flexibility
+```
 ansible-playbook update_service.yml -e 'gridmember_fqdn=192.168.1.2 state=restarted service_option=ALL'
 ansible-playbook update_service.yml -e 'gridmember_fqdn=192.168.1.2 state=restarted service_option=DHCP'
 ansible-playbook update_service.yml -e 'gridmember_fqdn=192.168.1.2 state=restarted service_option=DNS'
@@ -67,7 +71,7 @@ This one provisions a grid member. It requires 4 variables to be defined:
 3. member_gateway
 4. member_subnet_mask
 ```
-ansible-playbook provision_gridmember.yml -e 'member_name=gmc.ansible.local member_address=192.168.2.2 member_gateway=192.168.2.254 member_subnet_mask=255.255.255.0'
+ansible-playbook provision_gridmember.yml -e 'member_name=m3.ansible.local member_address=192.168.2.3 member_gateway=192.168.2.254 member_subnet_mask=255.255.255.0'
 ```
 
 
