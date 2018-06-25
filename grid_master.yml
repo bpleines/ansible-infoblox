@@ -1,8 +1,0 @@
----
-#This role is still very much a work in progress
-- name: Start developing against a gridmaster
-  hosts: localhost
-  connection: local
- 
-  roles:
-    - { role: infobloxGridmaster }
