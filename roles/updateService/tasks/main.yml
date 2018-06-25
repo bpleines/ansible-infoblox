@@ -4,13 +4,13 @@
     msg: "Please specify the gridmember_fqdn and state [started, restarted]"
   when: gridmember_fqdn is undefined or state is undefined
 
-- name: Gather the fqdn of {{ gridmember_fqdn }}
+- name: "Gather the fqdn of {{ gridmember_fqdn }}"
   include_tasks: dynamic_provider_shell_template.yml
   register: gridmember_info
   vars:
     shell_template: 'gridmemberFqdn'
 
-- name: Start the dns service on  {{ gridmember_fqdn }}
+- name: "Start the dns service on  {{ gridmember_fqdn }"
   include_tasks: dynamic_provider_shell_template.yml
   vars:
     shell_template: 'startDns'
@@ -21,7 +21,7 @@
       fail:
         msg: "Please specify a restart service_option ['ALL', 'DHCP', 'DNS']"
     #Default invocation
-    - name: Restart the {{ service_option }} on {{ gridmember_fqdn }}
+    - name: Restart the '{{ service_option }} on {{ gridmember_fqdn }}'
       include_tasks: dynamic_provider_shell_template.yml
       vars:
         shell_template: 'restartService' 
