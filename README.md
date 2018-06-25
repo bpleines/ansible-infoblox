@@ -100,7 +100,7 @@ Provision a new gridmaster candidate:
     - hosts: localhost
       connection: local
       roles:
-         - { role: provisionGridmasterCandidate ,master_candidate_name:gmc.ansible.local, master_candidate_addres: 192.168.2.2, master_candidate_gateway: 192.168.2.254, master_candidate_subnet_mask:255.255.255.0}
+         - { role: provisionGridmasterCandidate, master_candidate_name:gmc.ansible.local, master_candidate_address: 192.168.2.2, master_candidate_gateway: 192.168.2.254, master_candidate_subnet_mask:255.255.255.0 }
 
 
 Author Information
