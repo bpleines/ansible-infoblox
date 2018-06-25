@@ -2,7 +2,7 @@ Dynamically create host records in Infoblox using Ansible!
 
 A collection of roles featuring some of Infoblox's new integration in Core v2.5 to: 
 1. Add a sequence of host records at the next available ip address 
-2. Update a service
+2. Restart the DNS service on the gridmaster
 3. Take a configuration snapshot
 4. Provision a gridmaster candidate
 5. Provision a gridmember
@@ -40,7 +40,7 @@ The following playbook invocation starts the DNS service on the gridmaster:
 ansible-playbook update_service.yml -e 'gridmaster_fqdn=gm.ansible.local state=started'
 ```
 
-A slightly different invocation of this same playbook will restart the gridmaster service specified
+***Work in Progress***A slightly different invocation of this same playbook will restart the gridmaster service specified
 ```
 ansible-playbook update_service.yml -e 'state=restarted service_option=ALL'
 ansible-playbook update_service.yml -e 'state=restarted service_option=DHCP'
