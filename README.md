@@ -1,4 +1,4 @@
-Dynamically create host records in Infoblox using Ansible!
+###Dynamically create host records in Infoblox using Ansible!
 
 A collection of roles featuring some of Infoblox's new integration in Core v2.5 to: 
 1. Add a sequence of host records at the next available ip address 
@@ -9,7 +9,7 @@ A collection of roles featuring some of Infoblox's new integration in Core v2.5 
 Requirements
 ------------
 
-The infoblox-client installed on the targeted localhost machine. Ansible Core >= v2.5 for the infoblox modules and lookup plugin. Wapi v2.7 required for the snapshot script.
+The infoblox-client installed on the targeted localhost machine. Ansible Core >= v2.5 for the infoblox modules and lookup plugin. Content tested using *WAPI v2.7*.
 
 Role Variables
 --------------
@@ -22,8 +22,6 @@ nios_provider:
    username: admin
    password: infoblox
 ```
-Dependencies
-------------
 
 Example Playbooks
 -----------------
@@ -99,21 +97,21 @@ Start the dns service on a specified gridmember:
       roles:
          - { role: updateService, gridmember_fqdn: 192.168.1.2, state: started }
 
-Restart only the dhcp service on a specified gridmember:
+Force Restart - only the dhcp service on a specified gridmember:
 
     - hosts: localhost
       connection: local
       roles:
          - { role: uppdateService, gridmember_fqdn: 192.168.1.2, state: restarted, service_option: DHCP }
 
-Restart only the dns service on a specified gridmember:
+Force restart - only the dns service on a specified gridmember:
 
     - hosts: localhost
       connection: local
       roles:
          - { role: updateService, gridmember_fqdn: 192.168.1.2, state: restarted, service_option: DNS }
 
-Restart dhcp and dns service on a specified gridmember:
+Force restart - dhcp and dns service on a specified gridmember:
 
     - hosts: localhost
       connection: local
