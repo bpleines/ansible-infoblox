@@ -36,15 +36,15 @@ ansible-playbook create_dynamic_records.yml -e "ansible_zone=redhat.com"
 ansible-playbook create_dynamic_records.yml -e "ansible_subnet=10.10.10.0/24"
 ```
 
-An additional playbook is included to publish updates to gridmember services
+An additional playbook is included to publish updates to gridmember services:
 ```
 ansible-playbook update_service.yml -e 'gridmember_fqdn=192.168.1.2 state=started'
-ansible-playbook update_service.yml -e 'gridmember_fqdn=192.168.1.2 state=restarted service_option="ALL"'
-ansible-playbook update_service.yml -e 'gridmember_fqdn=192.168.1.2 state=restarted service_option="DHCP"'
-ansible-playbook update_service.yml -e 'gridmember_fqdn=192.168.1.2 state=restarted service_option="DNS"'
+ansible-playbook update_service.yml -e 'gridmember_fqdn=192.168.1.2 state=restarted service_option=ALL'
+ansible-playbook update_service.yml -e 'gridmember_fqdn=192.168.1.2 state=restarted service_option=DHCP'
+ansible-playbook update_service.yml -e 'gridmember_fqdn=192.168.1.2 state=restarted service_option=DNS'
 ```
 
-There is also the ability to create a snapshot of the gridmaster configuration at any time
+There is also the ability to create a snapshot of the gridmaster configuration at any time:
 ```
 ansible-playbook take_snapshot.yml
 ```
@@ -104,21 +104,21 @@ Restart only the dhcp service on a specified gridmember:
     - hosts: localhost
       connection: local
       roles:
-         - { role: uppdateService, gridmember_fqdn: 192.168.1.2, state: restarted, service_option: 'DHCP' }
+         - { role: uppdateService, gridmember_fqdn: 192.168.1.2, state: restarted, service_option: DHCP }
 
 Restart only the dns service on a specified gridmember:
 
     - hosts: localhost
       connection: local
       roles:
-         - { role: updateService, gridmember_fqdn: 192.168.1.2, state: restarted, service_option: 'DNS' }
+         - { role: updateService, gridmember_fqdn: 192.168.1.2, state: restarted, service_option: DNS }
 
 Restart dhcp and dns service on a specified gridmember:
 
     - hosts: localhost
       connection: local
       roles:
-         - { role: updateService, gridmember_fqdn: 192.168.1.2, state: restarted, service_option: 'ALL' }
+         - { role: updateService, gridmember_fqdn: 192.168.1.2, state: restarted, service_option: ALL }
 
 Take a snapshot of Infoblox configuration:
 
