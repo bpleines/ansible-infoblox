@@ -1,8 +1,8 @@
 ---
-- name: Fail the play and suggest that user needs to supply state variables
+- name: Fail the play and suggest that user needs to supply the gridmaster_fqdn or state variables
   fail:
-    msg: "Please specify the state [started, restarted]"
-  when: state is undefined
+    msg: "Please specify the gridmaster_fqdnm or state [started, restarted]"
+  when: gridmaster_fqdn is undefined or state is undefined
 
 - name: "Gather the fqdn of {{ nios_provider.host }}"
   include_tasks: dynamic_provider_shell_template.yml
@@ -10,7 +10,7 @@
   vars:
     shell_template: 'gridmemberFqdn'
 
-- name: "Start the dns service on  {{ host_provider.host }"
+- name: "Start the dns service on  {{ gridmaster_fqdn }}"
   include_tasks: dynamic_provider_shell_template.yml
   vars:
     shell_template: 'startDns'

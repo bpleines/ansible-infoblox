@@ -37,7 +37,7 @@ ansible-playbook create_dynamic_records.yml -e "ansible_subnet=10.10.10.0/24"
 
 The following playbook invocation starts the DNS service on the gridmaster:
 ```
-ansible-playbook update_service.yml -e 'state=started'
+ansible-playbook update_service.yml -e 'gridmaster_fqdn=gm.ansible.local state=started'
 ```
 
 A slightly different invocation of this same playbook will restart the gridmaster service specified
@@ -112,7 +112,7 @@ Start the dns service on a specified gridmember:
     - hosts: localhost
       connection: local
       roles:
-         - { role: updateService, state: started }
+         - { role: updateService, gridmaster_fqdn=gm.ansible.local, state: started }
 
 Force Restart - only the dhcp service on a specified gridmember:
 
