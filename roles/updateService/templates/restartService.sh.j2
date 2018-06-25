@@ -1,0 +1,66 @@
+#!/bin/sh
+
+# Lab 9 Task 2 Solution BONUS
+# 
+# This script uses curl commands to do the followings:
+#  1) Propmt for member, search for it
+#  2) Prompt for restart option (FORCE_RESTART or RESTART_IF_NEEDED)
+#  3) Prompt for service option (ALL, DHCP, or DNS)
+#  4) Restart service as requested
+#  5) Remove connection cookie
+#
+# Note: this script uses some other shell commands such as 'jq'
+# 'sed' to extract the reference ID, these commands are not
+# part of the course, instructors will not cover the usage
+# of these tools in class.
+# 
+# Copyright (C) 2018 Infoblox. All Rights Reserved.
+
+
+# 1) Prompt user for member name 
+#echo "Please enter the name of the Grid Member. (ex: ibns2.techblue.net)"
+#read MEMBER_NAME
+MEMBER=`curl -s -k -u {{ nios_provider.username }}:{{ nios_provider.password }} -H 'Content-Type:application/json' \
+  --cookie-jar '/tmp/wapi.auth' \
+  -X GET 'https://{{ gridmember_fqdn }}/wapi/{{ wapi_version }}/member?host_name='$MEMBER_NAME`
+MEMBER_REF=`echo $MEMBER| jq .[]._ref | sed 's/"//g'`
+if [ -z $MEMBER_REF ] ; then
+    echo "Member $MEMBER_NAME is not found."
+    exit
+fi
+
+# 2) Prompt user for restart option
+#echo "Please select restart option:
+#  1) Force Restart
+#  2) Only Restart if Needed"
+#read RESTART_ANS
+#case $RESTART_ANS in
+RESTART_OPT="FORCE_RESTART"
+    #2) RESTART_OPT="RESTART_IF_NEEDED" ;;
+    #*) echo "Must select 1 or 2" ; exit ;
+#esac
+
+# 3) Prompt user for service option
+#echo "Please select service option:
+#  1) Restart DNS Only
+#  2) Restart DHCP Only
+#  3) Restart both"
+#read SERVICE_ANS
+#case $SERVICE_ANS in
+    #1) SERVICE_OPT="DNS" ;;
+    #2) SERVICE_OPT="DHCP" ;;
+    #3) SERVICE_OPT="ALL" ;;
+#    *) echo "Must select 1, 2, or 3" ; exit ;
+#esac
+SERVICE_OPT="{{ service_option }}"
+
+# 4) Restart service on member
+echo "Restarting service."
+curl -k --cookie '/tmp/wapi.auth' -H 'Content-Type:application/json' \
+  -X POST 'https://{{ gridmember_ip_address }}/wapi/{{ wapi_version }}/'$MEMBER_REF'?_function=restartservices' \
+  --data '{
+    "service_option":"'$SERVICE_OPT'"
+}'
+
+# 5) Clean up, remove cookie file
+#rm -f /tmp/wapi.auth

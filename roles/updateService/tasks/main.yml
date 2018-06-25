@@ -1,0 +1,34 @@
+---
+- name: Fail the play and suggest that user needs to supply the gridmember_fqdn and state variables
+  fail:
+    msg: "Please specify the gridmember_fqdn and state [started, restarted]"
+  when: gridmember_fqdn is undefined or state is undefined
+
+- name: Gather the fqdn of {{ gridmember_fqdn }}
+  include_tasks: dynamic_provider_shell_template.yml
+  register: gridmember_info
+  vars:
+    shell_template: 'gridmemberFqdn'
+
+- name: Start the dns service on  {{ gridmember_fqdn }}
+  include_tasks: dynamic_provider_shell_template.yml
+  vars:
+    shell_template: 'startDns'
+  when: state == 'started'
+
+- block:
+    - name: Fail the play and suggest that user needs to supply the service_option
+      fail:
+        msg: "Please specify a restart service_option ['ALL', 'DHCP', 'DNS']"
+    #Default invocation
+    - name: Restart the {{ service_option }} on {{ gridmember_fqdn }}
+      include_tasks: dynamic_provider_shell_template.yml
+      vars:
+        shell_template: 'restartService' 
+  when: state == 'restarted'
+
+- name: Remove the generated cookie file
+  file:
+    path: '/tmp/wapi.auth'
+    state: absent
+...

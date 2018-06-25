@@ -29,7 +29,7 @@
 #  vars:
 #    shell_template: 'create-authoritative-reverse-zone'
 
-- name: 'Create a reverse DNS mapping to forward DNS zone'
+- name: 'Create a reverse DNS zone to match forward zone'
   uri:
     url: https://{{ nios_provider.host }}/wapi/{{ wapi_version }}/zone_auth
     method: POST

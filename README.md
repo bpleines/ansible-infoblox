@@ -1,6 +1,6 @@
 Dynamically create host records in Infoblox using Ansible!
 
-A collection of roles using some of Infoblox's new integration in Core v2.5 to:  1) add a sequence of host records at the next available ip address 2) start the dns service 3) take a configuration snapshot 4) provision a gridmaster candidate
+A collection of roles featuring some of Infoblox's new integration in Core v2.5 to:  1) add a sequence of host records at the next available ip address 2) start the dns service 3) take a configuration snapshot 4) provision a gridmaster member
 
 Requirements
 ------------
@@ -32,9 +32,12 @@ ansible-playbook create_dynamic_records.yml -e "ansible_zone=redhat.com"
 ansible-playbook create_dynamic_records.yml -e "ansible_subnet=10.10.10.0/24"
 ```
 
-An additional playbook is included to start the dns service on the gridmaster
+An additional playbook is included to publish updates to gridmember services
 ```
-ansible-playbook start_dns_service.yml -e 'gridmaster_fqdn=192.168.1.2'
+ansible-playbook update_service.yml -e 'gridmember_fqdn=192.168.1.2 state=started'
+ansible-playbook update_service.yml -e 'gridmember_fqdn=192.168.1.2 state=restarted service_option="ALL"'
+ansible-playbook update_service.yml -e 'gridmember_fqdn=192.168.1.2 state=restarted service_option="DHCP"'
+ansible-playbook update_service.yml -e 'gridmember_fqdn=192.168.1.2 state=restarted service_option="DNS"'
 ```
 
 There is also the ability to create a snapshot of the gridmaster configuration at any time
@@ -81,12 +84,33 @@ Override the default subnet. The default gateway_address is automated to reflect
       roles:
          - { role: dynamicInfoblox, ansible_subnet: 10.10.10.0/24 }
 
-Start dns on a specified gridmaster:
+Start the dns service on a specified gridmember:
 
     - hosts: localhost
       connection: local
       roles:
-         - { role: startDns, gridmaster_fqdn: 192.168.1.2 }
+         - { role: updateService, gridmember_fqdn: 192.168.1.2, state: started }
+
+Restart only the dhcp service on a specified gridmember:
+
+    - hosts: localhost
+      connection: local
+      roles:
+         - { role: uppdateService, gridmember_fqdn: 192.168.1.2, state: restarted, service_option: 'DHCP' }
+
+Restart only the dns service on a specified gridmember:
+
+    - hosts: localhost
+      connection: local
+      roles:
+         - { role: updateService, gridmember_fqdn: 192.168.1.2, state: restarted, service_option: 'DNS' }
+
+Restart dhcp and dns service on a specified gridmember:
+
+    - hosts: localhost
+      connection: local
+      roles:
+         - { role: updateService, gridmember_fqdn: 192.168.1.2, state: restarted, service_option: 'ALL' }
 
 Take a snapshot of Infoblox configuration:
 

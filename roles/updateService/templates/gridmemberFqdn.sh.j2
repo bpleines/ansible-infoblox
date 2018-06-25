@@ -1,0 +1,2 @@
+#!/bin/sh
+curl -k -u {{ nios_provider.username }}:{{ nios_provider.password }} -H 'content-type:application/json' -X GET "https://{{ gridmember_fqdn }}/wapi/{{ wapi_version }}/ipv4address?ip_address={{ gridmember_fqdn }}"

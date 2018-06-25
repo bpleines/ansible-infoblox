@@ -1,0 +1,8 @@
+---
+- name: Update a service for a specified gridmember
+  hosts: localhost
+  connection: local
+ 
+  roles:
+    - { role: updateService }
+...
