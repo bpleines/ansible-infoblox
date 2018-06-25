@@ -22,7 +22,7 @@
 #read MEMBER_NAME
 MEMBER=`curl -s -k -u {{ nios_provider.username }}:{{ nios_provider.password }} -H 'Content-Type:application/json' \
   --cookie-jar '/tmp/wapi.auth' \
-  -X GET 'https://{{ gridmember_fqdn }}/wapi/{{ wapi_version }}/member?host_name='$MEMBER_NAME`
+  -X GET 'https://{{ nios_provider.host }}/wapi/{{ wapi_version }}/member?host_name='$MEMBER_NAME`
 MEMBER_REF=`echo $MEMBER| jq .[]._ref | sed 's/"//g'`
 if [ -z $MEMBER_REF ] ; then
     echo "Member $MEMBER_NAME is not found."
@@ -57,7 +57,7 @@ SERVICE_OPT="{{ service_option }}"
 # 4) Restart service on member
 echo "Restarting service."
 curl -k --cookie '/tmp/wapi.auth' -H 'Content-Type:application/json' \
-  -X POST 'https://{{ gridmember_ip_address }}/wapi/{{ wapi_version }}/'$MEMBER_REF'?_function=restartservices' \
+  -X POST 'https://{{ nios_provider.host }}/wapi/{{ wapi_version }}/'$MEMBER_REF'?_function=restartservices' \
   --data '{
     "service_option":"'$SERVICE_OPT'"
 }'
