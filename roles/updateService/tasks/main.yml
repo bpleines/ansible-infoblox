@@ -2,7 +2,7 @@
 - name: Fail the play and suggest that user needs to supply state variables
   fail:
     msg: "Please specify the state [started, restarted]"
-  when: gridmember_fqdn is undefined or state is undefined
+  when: state is undefined
 
 - name: "Gather the fqdn of {{ nios_provider.host }}"
   include_tasks: dynamic_provider_shell_template.yml
