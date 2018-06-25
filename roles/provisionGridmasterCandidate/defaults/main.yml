@@ -1,0 +1,2 @@
+#default value of IB-V825 is the lab tested configuration
+hwtype: 'IB-V825'
