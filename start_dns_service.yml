@@ -1,7 +1,0 @@
----
-- name: Start the DNS service for a specified gridmaster
-  hosts: localhost
-  connection: local
- 
-  roles:
-    - { role: startDnsService }
