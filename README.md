@@ -1,6 +1,10 @@
 Dynamically create host records in Infoblox using Ansible!
 
-A collection of roles featuring some of Infoblox's new integration in Core v2.5 to:  1) add a sequence of host records at the next available ip address 2) start the dns service 3) take a configuration snapshot 4) provision a gridmaster member
+A collection of roles featuring some of Infoblox's new integration in Core v2.5 to: 
+1. Add a sequence of host records at the next available ip address 
+2. Update a service
+3. Take a configuration snapshot
+4. Provision a gridmaster member
 
 Requirements
 ------------
@@ -9,7 +13,7 @@ The infoblox-client installed on the targeted localhost machine. Ansible Core >=
 
 Role Variables
 --------------
-Example nios_provider supplied below. This should be vaulted in /group_vars/localhost for production use
+Example nios_provider supplied below. This should be vaulted in /group_vars/localhost/main.yml for production use
 
 ```
 nios_provider:
@@ -47,7 +51,11 @@ ansible-playbook take_snapshot.yml
 
 Note: Restoring the snapshot is currently a manual step but I hope to have automation here soon too.
 
-A final playbook requires a second configured Infoblox instance. It provisions the second instance as a gridmaster candidate assuming nios_provider as the gridmaster. It requires 4 variables to be defined: 1) master_candidate_name, 2) master_candidate_address, 3) master_candidate_gateway, 4) master_candidate_subnet_mask
+A final playbook requires a second configured Infoblox instance. It provisions the second instance as a gridmaster candidate assuming nios_provider as the gridmaster. It requires 4 variables to be defined: 
+1. master_candidate_name
+2. master_candidate_address
+3. master_candidate_gateway
+4. master_candidate_subnet_mask
 ```
 ansible-playbook provision_gridmaster_candidate.yml -e 'master_candidate_name=gmc.ansible.local master_candidate_address=192.168.2.2 master_candidate_gateway=192.168.2.254 master_candidate_subnet_mask=255.255.255.0'
 ```
