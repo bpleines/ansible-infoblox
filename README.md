@@ -45,9 +45,9 @@ There is also the ability to create a snapshot of the gridmaster configuration a
 ansible-playbook take_snapshot.yml
 ```
 
-Note: Restoring the snapshot is current a manual step but I hope to have automation here soon too.
+Note: Restoring the snapshot is currently a manual step but I hope to have automation here soon too.
 
-A final playbook requires a second configured Infoblox instance. It provisions the second instance as a gridmaster candidate. It requires 4 variables to be defined: 1) master_candidate_name, 2) master_candidate_address, 3) master_candidate_gateway, 4) master_candidate_subnet_mask
+A final playbook requires a second configured Infoblox instance. It provisions the second instance as a gridmaster candidate assuming nios_provider as the gridmaster. It requires 4 variables to be defined: 1) master_candidate_name, 2) master_candidate_address, 3) master_candidate_gateway, 4) master_candidate_subnet_mask
 ```
 ansible-playbook provision_gridmaster_candidate.yml -e 'master_candidate_name=gmc.ansible.local master_candidate_address=192.168.2.2 master_candidate_gateway=192.168.2.254 master_candidate_subnet_mask=255.255.255.0'
 ```
