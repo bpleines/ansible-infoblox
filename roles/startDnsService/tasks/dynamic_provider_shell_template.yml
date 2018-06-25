@@ -1,14 +1,14 @@
 ---
-- name: "Template out the WAPI shell script call with supplied nios_provider.host"
+- name: "Template out the WAPI shell script ({{ shell_template }})"
   template:
     src: '{{ shell_template }}.sh.j2'
     dest: '{{ ansible_env.HOME }}/{{ shell_template }}.sh'
     mode: "ugo+rwx"
 
-- name: "Call the templated WAPI shell script"
+- name: "Call the templated WAPI shell script ({{ shell_template }})"
   shell: '{{ ansible_env.HOME }}/{{ shell_template }}.sh'
 
-- name: "Remove the templated script"
+- name: "Remove the templated shell script ({{ shell_template }})"
   file:
     path: '{{ ansible_env.HOME }}/{{ shell_template }}.sh'
     state: absent

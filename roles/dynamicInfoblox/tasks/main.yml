@@ -26,6 +26,8 @@
 #Uri module idempotecy preferred
 #- name: 'Create a reverse DNS zone'
 #  include_tasks: dynamic_provider_template.yml
+#  vars:
+#    shell_template: 'create-authoritative-reverse-zone'
 
 - name: 'Create a reverse DNS mapping to forward DNS zone'
   uri:

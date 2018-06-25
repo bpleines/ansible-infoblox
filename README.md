@@ -37,12 +37,12 @@ An additional playbook is included to start the dns service on the gridmaster
 ansible-playbook start_dns_service.yml -e 'gridmaster_fqdn=192.168.1.2'
 ```
 
-There is also the ability to create a snapshot of the database at any time
+There is also the ability to create a snapshot of the gridmaster configuration at any time
 ```
 ansible-playbook take_snapshot.yml
 ```
 
-Restoring the snapshot is current a manual step but I hope to have automation here soon too.
+Note: Restoring the snapshot is current a manual step but I hope to have automation here soon too.
 
 A final playbook requires a second configured Infoblox instance. It provisions the second instance as a gridmaster candidate. It requires 4 variables to be defined: 1) master_candidate_name, 2) master_candidate_address, 3) master_candidate_gateway, 4) master_candidate_subnet_mask
 ```
