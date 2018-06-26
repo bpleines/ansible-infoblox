@@ -1,2 +1,5 @@
 [localhost]
 localhost
+
+[gridmaster]
+'{{ nios_provider.host }}'
