@@ -5,10 +5,10 @@
  
   roles:
     - { role: dynamicInfoblox, host_count: 1 }
-    - { role: dyanmicInfoblox, host_count: 5, ansible_zone: redhat.com } 
-    - { role: dynamicInfoblox, host_count: 3, ansible_subnet: 10.10.10.0/24 }
-    - { role: updateService, gridmaster_fqdn: gm.ansible.local, state: started }
-    - { role: provisionGridmember, member_name: gmc.ansible.local, member_address: 192.168.2.2, member_gateway: 192.168.2.254, member_subnet_mask: 255.255.255.0 }
-    - { role: provisionGridmasterCandidate, master_candidate_name: gmc.ansible.local, master_candidate_address: 192.168.2.2, master_candidate_gateway: 192.168.2.254, master_candidate_subnet_mask:255.255.255.0 }
+    - { role: dynamicInfoblox, host_count: 5, ansible_zone: "redhat.com" } 
+    - { role: dynamicInfoblox, host_count: 3, ansible_subnet: 192.168.2.0/24 }
+    - { role: updateService, state: started, gridmaster_fqdn: gm.ansible.local }
+    - { role: provisionGridmember, member_name: m3.redhat.com, member_address: 192.168.2.3, member_gateway: 192.168.2.254, member_subnet_mask: 255.255.255.0 }
+    - { role: provisionGridmasterCandidate, master_candidate_name: gmc.redhat.com, master_candidate_address: 192.168.2.2, master_candidate_gateway: 192.168.2.254, master_candidate_subnet_mask: 255.255.255.0 }
     - { role: snapshotConfiguration }
 ...
