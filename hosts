@@ -1,4 +1,4 @@
-localhost
+localhost ansible_connection=local
 
 [gridmaster]
 192.168.1.2 ansible_user=admin ansible_password=infoblox
