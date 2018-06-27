@@ -4,4 +4,4 @@
   connection: local
  
   roles:
-    - { role: snapshotConfiguration }
+    - { role: snapshotConfiguration, wapi_version: 'v2.6' }
