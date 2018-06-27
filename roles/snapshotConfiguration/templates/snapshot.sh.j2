@@ -32,7 +32,7 @@
 # 2) Before taking a snapshot, check to see if there is an existing one.
 # If a non-zero timestamp is returned, proceed with extracting the
 # timestamp field and comment field.
-CHECK_SNAPSHOT=`curl -s -k -u {{ nios_provider.username }}:{ nios_provider.password }} -H 'Content-Type:application/json' \
+CHECK_SNAPSHOT=`curl -s -k -u {{ nios_provider.username }}:{{ nios_provider.password }} -H 'Content-Type:application/json' \
   --cookie-jar '/tmp/wapi.auth' \
   -X GET 'https://{{ nios_provider.host }}/wapi/{{ wapi_version }}/dbsnapshot'`
 OLD_TIMESTAMP_SEC=`echo "$CHECK_SNAPSHOT" | jq .[].timestamp | sed 's/"//g'`
@@ -57,7 +57,7 @@ fi
 #	case $ANS in
 #	    Y) PROCEED=true ;;
 #	    *)  PROCEED=false ; exit;
-#3	esac
+#	esac
 #fi
 
 # 4) If we got here, user wants to create either a new snapshot or remove
@@ -65,7 +65,7 @@ fi
 echo "Creating snapshot, please wait."
 RESULT=`curl -s -k --cookie '/tmp/wapi.auth' -H 'Content-Type:application/json' \
     -X POST 'https://{{ nios_provider.host }}/wapi/{{ wapi_version }}/dbsnapshot?_function=save_db_snapshot' \
-    --data '{"comment":"{{ snapshot_comment }}"}'`
+    --data '{"comment":"'$COMMENT'"}'`
 NEW_REF=`echo $RESULT | jq ._ref | sed 's/"//g'`
 if [ $NEW_REF = "null" ] ; then
 	echo "Creating snapshot failed."
@@ -88,3 +88,4 @@ echo "New snapshot created at $NEW_TIMESTAMP"
 
 # 6) Clean up, remove cookie file
 #rm -f /tmp/wapi.auth
+
