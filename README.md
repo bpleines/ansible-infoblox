@@ -51,10 +51,9 @@ There is also the ability to create a snapshot of the gridmaster configuration a
 ```
 ansible-playbook take_snapshot.yml
 ```
+_Note: Restoring the snapshot is currently a manual step but I hope to have automation here soon too._
 
-Note: Restoring the snapshot is currently a manual step but I hope to have automation here soon too.
-
-These final playbooks require a second configured Infoblox instance. 
+These final playbooks require a second configured Infoblox instance: 
 
 This first playbook provisions the second instance as a gridmaster candidate assuming nios_provider as the gridmaster. It requires 4 variables to be defined: 
 1. master_candidate_name
@@ -65,7 +64,7 @@ This first playbook provisions the second instance as a gridmaster candidate ass
 ansible-playbook provision_gridmaster_candidate.yml -e 'master_candidate_name=gmc.ansible.local master_candidate_address=192.168.2.2 master_candidate_gateway=192.168.2.254 master_candidate_subnet_mask=255.255.255.0'
 ```
 
-This one provisions a grid member. It requires 4 variables to be defined:
+This playbook provisions a grid member. It requires 4 variables to be defined:
 1. member_name
 2. member_address
 3. member_gateway
@@ -112,7 +111,7 @@ Start the dns service on a specified gridmember:
     - hosts: localhost
       connection: local
       roles:
-         - { role: updateService, gridmaster_fqdn=gm.ansible.local, state: started }
+         - { role: updateService, gridmaster_fqdn: gm.ansible.local, state: started }
 
 Force Restart - only the dhcp service on a specified gridmember:
 
