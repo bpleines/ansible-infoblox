@@ -19,9 +19,35 @@
     comment: DNS zone called {{ ansible_zone }}
     state: present
     provider: '{{ nios_provider }}'
-    # Need to sort out some details here
-    #grid_primary:
-    #  - name: 'gridmaster.{{ ansible_zone }}'
+
+- name: 'Retrieve the Gridmaster fqdn'
+  uri:
+    url: 'https://{{ nios_provider.host }}/wapi/{{ wapi_version }}/ipv4address?ip_address={{ nios_provider.host }}&_return_fields=names&_return_as_object=1'
+    method: GET
+    user: '{{ nios_provider.username }}'
+    password: '{{ nios_provider.password }}'
+    force_basic_auth: true
+    #200 signifies successful creation
+    status_code: 200
+    headers:
+      Content-Type: "application/json"
+    validate_certs: no
+  register: gridmasterFqdn
+
+- name: Set the gridmaster_fqdn fact for reuse
+  set_fact:
+    gridmaster_fqdn: '{{ item.names[0] }}'
+  with_items:
+    - '{{ gridmasterFqdn.json.result }}'
+
+- name: 'Update the forward zone to reflect its new Grid primary'
+  nios_zone:
+    name: '{{ ansible_zone }}'
+    comment: DNS zone called {{ ansible_zone }}
+    state: present
+    provider: '{{ nios_provider }}'
+    grid_primary:
+      - name: '{{ gridmaster_fqdn }}'
 
 #Uri module idempotecy preferred
 #- name: 'Create a reverse DNS zone'
@@ -29,7 +55,7 @@
 #  vars:
 #    shell_template: 'create-authoritative-reverse-zone'
 
-- name: 'Create a reverse DNS zone to match forward zone'
+- name: 'Create an equivalent reverse DNS zone'
   uri:
     url: https://{{ nios_provider.host }}/wapi/{{ wapi_version }}/zone_auth
     method: POST
@@ -49,6 +75,8 @@
     reverse_zone_yml:
       fqdn: "{{ ansible_subnet }}"
       zone_format: "IPV4"
+      grid_primary:
+        - name: '{{ gridmaster_fqdn }}'
 
 - name: Create a host record for the gateway address
   nios_host_record:
