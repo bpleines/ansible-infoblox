@@ -71,6 +71,7 @@
       Content-Type: "application/json"
     validate_certs: no
   register: reverse_dns_create
+  changed_when: reverse_dns_create.status == 201
   vars:
     reverse_zone_yml:
       fqdn: "{{ ansible_subnet }}"

@@ -1,0 +1,128 @@
+--- 
+- name: 'Create a test network subnet'
+  nios_network: 
+    network: '{{ ansible_subnet }}'
+    comment: Test network subnet to add host records to
+    state: present
+    provider: '{{ nios_provider }}'
+
+- name: 'Create a forward DNS local zone called ansible.local'
+  nios_zone:
+    name: '{{ ansible_zone }}'
+    comment: DNS zone called {{ ansible_zone }}
+    state: present
+    provider: '{{ nios_provider }}'
+
+- name: 'Retrieve the Gridmaster fqdn'
+  uri:
+    url: 'https://{{ nios_provider.host }}/wapi/{{ wapi_version }}/ipv4address?ip_address={{ nios_provider.host }}&_return_fields=names&_return_as_object=1'
+    method: GET
+    user: '{{ nios_provider.username }}'
+    password: '{{ nios_provider.password }}'
+    force_basic_auth: true
+    #200 signifies successful retrieval
+    status_code: 200
+    headers:
+      Content-Type: "application/json"
+    validate_certs: no
+  register: gridmasterFqdn
+
+- name: Set the gridmaster_fqdn fact for reuse
+  set_fact:
+    gridmaster_fqdn: '{{ item.names[0] }}'
+  with_items:
+    - '{{ gridmasterFqdn.json.result }}'
+
+- name: 'Create a name server group called {{ name_server_group }}'
+  uri:
+    url: 'https://{{ nios_provider.host }}/wapi/{{ wapi_version }}/nsgroup'
+    method: POST
+    user: '{{ nios_provider.username }}'
+    password: '{{ nios_provider.password }}'
+    body: '{{ nsgroup_yml|to_json }}'
+    force_basic_auth: true
+    #201 signifies successful creation
+    status_code: 201,400
+    headers:
+      Content-Type: "application/json"
+    validate_certs: no
+  register: ns_group_create
+  changed_when: ns_group_create.status == 201
+  vars:
+    nsgroup_yml:
+      name: '{{ name_server_group }}'
+      grid_primary:
+        - name: '{{ gridmaster_fqdn }}' 
+
+#Had to remove module created forward zone to create it with ns_group
+- name: 'Remove the forward DNS local zone called ansible.local'
+  nios_zone:
+    name: '{{ ansible_zone }}'
+    comment: DNS zone called {{ ansible_zone }}
+    state: absent
+    provider: '{{ nios_provider }}'
+
+- name: 'Update the forward zone to reflect its new Grid primary as a name server group'
+  uri:
+    url: 'https://{{ nios_provider.host }}/wapi/{{ wapi_version }}/zone_auth'
+    method: POST
+    user: '{{ nios_provider.username }}'
+    password: '{{ nios_provider.password }}'
+    body: '{{ forward_zone_yml|to_json }}'
+    force_basic_auth: true
+    #201 signifies successful creation
+    #400 signifies existing entry
+    #both should signify a successful WAPI call
+    status_code: 201,400
+    headers:
+      Content-Type: "application/json"
+    validate_certs: no
+  register: forward_zone_create
+  changed_when: forward_zone_create.status == 201
+  vars:
+    forward_zone_yml:
+      fqdn: "{{ ansible_zone }}"
+      ns_group: "{{ name_server_group }}"
+      view: "default"
+
+- name: 'Create an equivalent reverse DNS zone'
+  uri:
+    url: https://{{ nios_provider.host }}/wapi/{{ wapi_version }}/zone_auth
+    method: POST
+    user: '{{ nios_provider.username }}'
+    password: '{{ nios_provider.password }}'
+    body: "{{ reverse_zone_yml|to_json }}"
+    force_basic_auth: true
+    #201 signifies successful creation
+    #400 signifies existing entry
+    #both should signify a successful WAPI call
+    status_code: 201,400
+    headers:
+      Content-Type: "application/json"
+    validate_certs: no
+  register: reverse_dns_create
+  changed_when: reverse_dns_create.status == 201
+  vars:
+    reverse_zone_yml:
+      fqdn: "{{ ansible_subnet }}"
+      zone_format: "IPV4"
+      ns_group: "{{ name_server_group }}"
+      view: "default"
+
+  #- name: Create a host record for the gateway address
+  #nios_host_record:
+  #  name: 'gateway{{ ansible_subnet | strip_cidr | replace(".","_") }}.{{ ansible_zone }}'
+  #  ipv4:
+  #    - address: '{{ gateway_address }}'
+  #  state: present
+  #  provider: '{{ nios_provider }}'
+
+#Generating records this way should be for demo purposes
+#Normal scenario would be to iterate over a dictionary/list of hosts
+#- name: 'Dynamically generate {{ host_count }} host records at next available ip in {{ ansible_subnet }}'
+#  include_tasks: host_record_generation.yml
+#  loop_control:
+#    loop_var: count 
+#  with_sequence: start=1 end={{ host_count }}
+#  when: host_count is defined
+...

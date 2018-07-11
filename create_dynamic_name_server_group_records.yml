@@ -1,0 +1,8 @@
+---
+- name: Dynamically create host records using name server groups
+  hosts: localhost
+  connection: local
+ 
+  roles:
+    - { role: dynamicNameServerGroupInfoblox }
+    - { role: updateService, gridmaster_fqdn: gm.ansible.local, state: started }

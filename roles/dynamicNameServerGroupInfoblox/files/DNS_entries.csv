@@ -1,0 +1,11 @@
+header-hostrecord,fqdn*,addresses
+hostrecord,seven.ansible.local,192.168.1.7
+hostrecord,eight.ansible.local,192.168.1.8
+hostrecord,nine.ansible.local,192.168.1.9
+hostrecord,ten.ansible.local,192.168.1.10
+hostrecord,eleven.ansible.local,192.168.1.11
+hostrecord,twelve.ansible.local,192.168.1.12
+hostrecord,thirteen.ansible.local,192.168.1.13
+hostrecord,fourteen.ansible.local,192.168.1.14
+hostrecord,fifteen.ansible.local,192.168.1.15
+hostrecord,sixteen.ansible.local,192.168.1.16
