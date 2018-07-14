@@ -112,22 +112,21 @@
         validate_certs: no
       register: csv_token_url
 
-    - debug:
-        msg: '{{ csv_token_url.json.url }}'
+    - name: Set the csv_url fact
+      set_fact:
+        csv_url: '{{ csv_token_url.json.url }}'
 
-    - debug:
-        msg: '{{ csv_token_url.json.token }}'
+    - name: Set the csv_token fact
+      set_fact: 
+        csv_token: '{{ csv_token_url.json.token }}'
 
     - name: Post the file to the retrived url
       shell: curl -k -u {{ nios_provider.username }}:{{ nios_provider.host }} -H 'content-type:multipart/form-data' "{{ csv_url }}" -F file=@{{ static_csv_file }}
       vars:
-        csv_url: '{{ csv_token_url.json.url }}'
         static_csv_file: '{{ role_path }}/files/staticRecords/static-test.csv'
 
     - name: Merge the posted file results
       shell: curl -k -u {{ nios_provider.username }}:{{ nios_provider.password }} -H 'content-type:application/json' -X POST "https://{{ nios_provider.host }}/wapi/{{ wapi_version }}/fileop?_function=csv_import" -d '{"action":"START","on_error":"CONTINUE","update_method":"MERGE","token":"{{ csv_token }}"}'
-      vars:
-        csv_token: '{{ csv_token_url.json.token }}'
 
         #- name: 'Statically import host records from a csv file'
         #include_tasks: dynamic_provider_shell_template.yml
