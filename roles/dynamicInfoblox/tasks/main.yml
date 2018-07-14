@@ -77,7 +77,7 @@
       grid_primary:
         - name: '{{ gridmaster_fqdn }}'
 
-#gateway_way address computed by ip_addr("first_usable") in defaults/main.yml
+#gateway_address computed by ip_addr("first_usable") lookup in defaults/main.yml
 - name: Create a host record for the gateway address
   nios_host_record:
     name: 'gateway{{ gateway_address | replace(".","_") }}.{{ ansible_zone }}'
@@ -95,6 +95,7 @@
   with_sequence: start=1 end={{ host_count }}
   when: host_count is defined
 
+#This should be written to handle to handle full directories too
 - block:
     - name: 'Get a token and url to post the import to'
       uri:
@@ -119,6 +120,6 @@
       include_tasks: dynamic_provider_template.yml
       vars:
         shell_template: 'static-csv-import'
-        static_csv_file: '{{ role_path }}/files/static-test.csv'
-  when: static_csv_file is defined    
+        static_csv_file: '{{ role_path }}/files/staticRecords/static-test.csv'
+  when: static_csv is defined    
 ...

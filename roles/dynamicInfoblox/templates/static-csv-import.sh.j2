@@ -1,3 +1,3 @@
-curl -k -u {{ nios_provider.username }}:{{ nios_provider.host }} -H 'content-type:multipart/form-data' "{{ csv_token_url.url }}" -F file=@{{ csv_file }}
+curl -k -u {{ nios_provider.username }}:{{ nios_provider.host }} -H 'content-type:multipart/form-data' "{{ csv_token_url.url }}" -F file=@{{ static_csv_file }}
 
 curl -k -u {{ nios_provider.username }}:{{ nios_provider.password }} -H 'content-type:application/json' -X POST "https://{{ nios_provider.host }}/wapi/{{ wapi_version }}/fileop?_function=csv_import" -d '{"action":"START","on_error":"CONTINUE","update_method":"MERGE","token":"{{ csv_token_url.token }}"}'
