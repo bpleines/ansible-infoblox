@@ -1,5 +1,5 @@
----
-- name: 'Get a token'
+--- 
+- name: 'Get a token and url to post the import to'
   uri:
     url: 'https://{{ nios_provider.host }}/wapi/{{ wapi_version }}/fileop?_function=uploadinit'
     method: POST
@@ -8,8 +8,40 @@
     #201 signifies successful creation
     #400 signifies existing entry
     #both should signify a successful WAPI call
-    status_code: 201,400
+    #status_code: 201,400
     headers:
       Content-Type: "application/json"
     validate_certs: no
-  register: token
+  register: csv_token_url
+
+- name: 'Publish csv to returned url drop'
+  uri:
+    url: '{{ csv_token_url.url }}'
+    method: POST
+    user: '{{ nios_provider.username }}'
+    password: '{{ nios_provider.password }}'
+    #201 signifies successful creation
+    #400 signifies existing entry
+    #both should signify a successful WAPI call
+    #status_code: 201,400
+    headers:
+      Content-Type: "multipart/form-data"
+    validate_certs: no
+  register: publish_csv_url
+
+- name: 'Merge the published records'
+  uri:
+    url: 'https://192.168.1.2/wapi/v2.7/fileop?_function=csv_import'
+    method: POST
+    user: '{{ nios_provider.username }}'
+    password: '{{ nios_provider.password }}'
+    body: '{{ merge_yml | to_json }}'
+    #201 signifies successful creation
+    #400 signifies existing entry
+    #both should signify a successful WAPI call
+    #status_code: 201,400
+    headers:    
+      Content-Type: "application/json"
+    validate_certs: no
+  register: merge_csv
+---

@@ -95,7 +95,30 @@
   with_sequence: start=1 end={{ host_count }}
   when: host_count is defined
 
-- name: 'Statically import host records from a csv file'
-  include_tasks: csv_record_import.yml
-  when: host_csv is defined
+- block:
+    - name: 'Get a token and url to post the import to'
+      uri:
+	url: 'https://{{ nios_provider.host }}/wapi/{{ wapi_version }}/fileop?_function=uploadinit'
+	method: POST
+	user: '{{ nios_provider.username }}'
+	password: '{{ nios_provider.password }}'
+	#201 signifies successful creation
+	#400 signifies existing entry
+	#both should signify a successful WAPI call
+	#status_code: 201,400
+	headers:
+	  Content-Type: "application/json"
+	validate_certs: no
+      register: csv_token_url
+
+    - name: 'Debug csv_token_url'
+      debug:
+        msg: '{{ csv_token_url }}'
+
+    - name: 'Statically import host records from a csv file'
+      include_tasks: dynamic_provider_template.yml
+      vars:
+        shell_template: 'static-csv-import'
+        static_csv_file: '{{ role_path }}/files/static-test.csv'
+  when: static_csv_file is defined    
 ...

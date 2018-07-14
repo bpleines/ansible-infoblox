@@ -1,0 +1,7 @@
+header-hostrecord,fqdn*,addresses
+hostrecord,static1.ansible.local,10.10.10.15
+hostrecord,static2.ansible.local,10.10.10.16
+hostrecord,static3.ansible.local,10.10.10.17
+hostrecord,static4.ansible.local,10.10.10.18
+hostrecord,static5.ansible.local,10.10.10.19
+hostrecord,static6.ansible.local,10.10.10.20
