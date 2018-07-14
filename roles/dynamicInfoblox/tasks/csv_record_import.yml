@@ -1,0 +1,15 @@
+---
+- name: 'Get a token'
+  uri:
+    url: 'https://{{ nios_provider.host }}/wapi/{{ wapi_version }}/fileop?_function=uploadinit'
+    method: POST
+    user: '{{ nios_provider.username }}'
+    password: '{{ nios_provider.password }}'
+    #201 signifies successful creation
+    #400 signifies existing entry
+    #both should signify a successful WAPI call
+    status_code: 201,400
+    headers:
+      Content-Type: "application/json"
+    validate_certs: no
+  register: token
