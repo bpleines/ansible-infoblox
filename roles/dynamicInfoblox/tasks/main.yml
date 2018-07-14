@@ -99,17 +99,17 @@
 - block:
     - name: 'Get a token and url to post the import to'
       uri:
-	url: 'https://{{ nios_provider.host }}/wapi/{{ wapi_version }}/fileop?_function=uploadinit'
-	method: POST
-	user: '{{ nios_provider.username }}'
-	password: '{{ nios_provider.password }}'
-	#201 signifies successful creation
-	#400 signifies existing entry
-	#both should signify a successful WAPI call
-	#status_code: 201,400
-	headers:
+        url: 'https://{{ nios_provider.host }}/wapi/{{ wapi_version }}/fileop?_function=uploadinit'
+        method: POST
+        user: '{{ nios_provider.username }}'
+        password: '{{ nios_provider.password }}'
+        #201 signifies successful creation
+        #400 signifies existing entry
+        #both should signify a successful WAPI call
+        #status_code: 201,400
+        headers:
 	  Content-Type: "application/json"
-	validate_certs: no
+        validate_certs: no
       register: csv_token_url
 
     - name: 'Debug csv_token_url'
