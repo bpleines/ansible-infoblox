@@ -66,7 +66,7 @@
   when: host_count is defined
 
 #Work in progress
-#This should be written to handle to handle full directories too
+#This should be written to handle full directories of csvs
 - name: Create records by importing a static csv file
   include_tasks: import_csv.yml
   when: static_csv is defined    
