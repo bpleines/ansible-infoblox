@@ -1,8 +1,8 @@
 Dynamically create host records in Infoblox using Ansible!
 
 A collection of roles featuring some of Infoblox's new integration in Core v2.5 to: 
-1. Add a sequence of host records at the next available ip address 
-2. Restart the DNS service on the gridmaster
+1. Create zones and Add a sequence of host records at the next available ip address 
+2. Start the DNS service on the gridmaster
 3. Take a configuration snapshot
 4. Provision a gridmaster candidate
 5. Provision a gridmember
@@ -38,13 +38,6 @@ ansible-playbook create_dynamic_records.yml -e "ansible_subnet=10.10.10.0/24"
 The following playbook invocation starts the DNS service on the gridmaster:
 ```
 ansible-playbook update_service.yml -e 'gridmaster_fqdn=gm.ansible.local state=started'
-```
-
-***Work in Progress***A slightly different invocation of this same playbook will restart the gridmaster service specified
-```
-ansible-playbook update_service.yml -e 'state=restarted service_option=ALL'
-ansible-playbook update_service.yml -e 'state=restarted service_option=DHCP'
-ansible-playbook update_service.yml -e 'state=restarted service_option=DNS'
 ```
 
 There is also the ability to create a snapshot of the gridmaster configuration at any time:
@@ -106,33 +99,12 @@ Override the default subnet. The default gateway_address is automated to reflect
       roles:
          - { role: dynamicInfoblox, ansible_subnet: 10.10.10.0/24 }
 
-Start the dns service on a specified gridmember:
+Start the dns service on the gridmasterr:
 
     - hosts: localhost
       connection: local
       roles:
          - { role: updateService, gridmaster_fqdn: gm.ansible.local, state: started }
-
-Force Restart - only the dhcp service on a specified gridmember:
-
-    - hosts: localhost
-      connection: local
-      roles:
-         - { role: uppdateService, state: restarted, service_option: DHCP }
-
-Force restart - only the dns service on a specified gridmember:
-
-    - hosts: localhost
-      connection: local
-      roles:
-         - { role: updateService, state: restarted, service_option: DNS }
-
-Force restart - dhcp and dns service on a specified gridmember:
-
-    - hosts: localhost
-      connection: local
-      roles:
-         - { role: updateService, state: restarted, service_option: ALL }
 
 Take a snapshot of Infoblox configuration:
 

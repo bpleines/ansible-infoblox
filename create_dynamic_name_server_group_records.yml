@@ -4,5 +4,5 @@
   connection: local
  
   roles:
-    - { role: dynamicNameServerGroupInfoblox }
+    - { role: dynamicInfoblox, static_csv=True }
     - { role: updateService, gridmaster_fqdn: gm.ansible.local, state: started }
