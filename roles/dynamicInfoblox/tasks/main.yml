@@ -69,7 +69,4 @@
 - name: Create records by importing a static csv file
   include_tasks: import_csv.yml
   when: static_csv is defined
-
-- name: Create records dynamically by using a static list of hostnames
-  include_tasks: 
 ...
