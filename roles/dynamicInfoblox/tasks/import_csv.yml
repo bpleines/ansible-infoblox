@@ -23,18 +23,33 @@
     csv_token: '{{ csv_token_url.json.token }}'
 
 - name: Post the file to the retrived url
-  shell: curl -k -u {{ nios_provider.username }}:{{ nios_provider.host }} -H 'content-type:multipart/form-data' "{{ csv_url }}" -F file=@{{ static_csv_file }}
+  shell: curl -k -u {{ nios_provider.username }}:{{ nios_provider.password }} -H 'Content-Type:multipart/form-data' "{{ csv_url }}" -F file=@{{ static_csv_file }}
   vars:
     static_csv_file: '{{ role_path }}/files/staticRecords/static-test.csv'
 
 - name: Merge the posted file results
-  shell: curl -k -u {{ nios_provider.username }}:{{ nios_provider.password }} -H 'content-type:application/json' -X POST "https://{{ nios_provider.host }}/wapi/{{ wapi_version }}/fileop?_function=csv_import" -d '{"action":"START","on_error":"CONTINUE","update_method":"MERGE","token":"{{ csv_token }}"}'
+  uri:
+    url: "https://{{ nios_provider.host }}/wapi/{{ wapi_version }}/fileop?_function=csv_import"          
+    method: POST
+    user: '{{ nios_provider.username }}'
+    password: '{{ nios_provider.password }}'
+    body: '{{ merge_csv_yml | to_json }}'
+    headers:
+       Content-Type: "application/json"
+    validate_certs: no
+  vars:
+    merge_csv_yml:
+      action: "START"
+      on_error: "CONTINUE"
+      update_method: "MERGE"
+      token: '{{ csv_token }}'
 
-#- name: 'Statically import host records from a csv file'
-#   include_tasks: dynamic_provider_shell_template.yml
-#   vars:
-#     shell_template: 'static-csv-import'
-#     static_csv_file: '{{ role_path }}/files/staticRecords/static-test.csv'
-#     csv_url: '{{ csv_token_url.json.url }}'
-#     csv_token: '{{ csv_token_url.json.token }}'
+#- name: Merge the posted file results
+#shell: curl -k -u {{ nios_provider.username }}:{{ nios_provider.password }} -H 'Content-Type:application/json' -X POST "https://{{ nios_provider.host }}/wapi/{{ wapi_version }}/fileop?_function=csv_import" -d '{{ merge_csv_yml|to_json }}'
+# vars:
+#merge_csv_yml:
+#action: "START"
+      #on_error: "CONTINUE"
+     #update_method: "MERGE"
+     #token: '{{ csv_token }}'
 ...

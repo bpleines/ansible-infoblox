@@ -65,9 +65,11 @@
   with_sequence: start=1 end={{ host_count }}
   when: host_count is defined
 
-#Work in progress
 #This should be written to handle full directories of csvs
 - name: Create records by importing a static csv file
   include_tasks: import_csv.yml
-  when: static_csv is defined    
+  when: static_csv is defined
+
+- name: Create records dynamically by using a static list of hostnames
+  include_tasks: 
 ...
