@@ -1,5 +1,5 @@
 ---
-- name: Join a member appliance to the Grid
+- name: Join a Grid Master Candidate or Grid Member appliance to the Grid
   hosts: localhost
   connection: local
  
