@@ -8,8 +8,8 @@
     - { role: dynamicInfoblox, host_count: 5, ansible_zone: "redhat.com" } 
     - { role: dynamicInfoblox, host_count: 3, ansible_subnet: 192.168.2.0/24 }
     - { role: updateService, state: started, gridmaster_fqdn: gm.ansible.local }
-    - { role: provisionGridmember, member_name: m3.redhat.com, member_address: 192.168.2.3, member_gateway: 192.168.2.254, member_subnet_mask: 255.255.255.0 }
+    - { role: predefineGridmember, member_name: m3.redhat.com, member_address: 192.168.2.3, member_gateway: 192.168.2.254, member_subnet_mask: 255.255.255.0 }
     #These roles require a second preconfigured Infoblox installation
-    - { role: provisionGridmasterCandidate, master_candidate_name: gmc.redhat.com, master_candidate_address: 192.168.2.2, master_candidate_gateway: 192.168.2.254, master_candidate_subnet_mask: 255.255.255.0 }
+    - { role: predefineGridmasterCandidate, master_candidate_name: gmc.redhat.com, master_candidate_address: 192.168.2.2, master_candidate_gateway: 192.168.2.254, master_candidate_subnet_mask: 255.255.255.0 }
     - { role: snapshotConfiguration }
 ...

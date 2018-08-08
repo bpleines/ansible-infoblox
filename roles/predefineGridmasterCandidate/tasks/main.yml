@@ -4,7 +4,7 @@
     msg: "Please ensure the following 4 values are supplied: master_candidate_name (fqdn only!), master_candidate_address, master_candidate_gateway, master_candidate_subnet_mask"
   when: master_candidate_name is undefined or master_candidate_address is undefined or master_candidate_gateway is undefined or master_candidate_subnet_mask is undefined
 
-- name: Provision a gridmaster candidate
+- name: Predefine a gridmaster candidate
   include_tasks: dynamic_provider_shell_template.yml
   vars:
     shell_template: 'provision_gmc'

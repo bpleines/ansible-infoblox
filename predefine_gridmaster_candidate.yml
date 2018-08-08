@@ -1,0 +1,7 @@
+---
+- name: Predefine a gridmaster candidate to join the primary gridmaster
+  hosts: localhost
+  connection: local
+ 
+  roles:
+    - { role: predefineGridmasterCandidate }
