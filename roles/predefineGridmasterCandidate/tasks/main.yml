@@ -7,7 +7,7 @@
 - name: Predefine a gridmaster candidate
   include_tasks: dynamic_provider_shell_template.yml
   vars:
-    shell_template: 'provision_gmc'
+    shell_template: 'predefine_gmc'
 
 - name: Remove the generated cookie file
   file:
