@@ -1,0 +1,28 @@
+---
+- name: Fail if member_join_host
+  fail:
+    msg: 'Please define the grid member Ip to join to the grid'
+  when: member_join_host is undefined
+
+- name: 'Join a member to the Grid' 
+  uri:
+    url: 'https://{{ member_join_host }}/wapi/{{ wapi_version }}/grid?_function=join'
+    method: POST
+    user: '{{ nios_provider.username }}' 
+    password: '{{ nios_provider.password }}' 
+    body: '{{ grid_join_yml|to_json }}' 
+    #201 signifies successful creation
+    #400 signifies existing entry
+    #both signify a successful WAPI call
+    status_code: 201,400
+    headers:
+      Content-Type: "application/json"
+    validate_certs: no
+  register: join_to_grid
+  changed_when: join_to_grid.status == 201 
+  vars:
+    grid_join_yml:
+      grid_name: '{{ grid_name }}' 
+      grid_master: '{{ nios_provider.host }}'
+      shared_secret: '{{ shared_secret }}'
+...

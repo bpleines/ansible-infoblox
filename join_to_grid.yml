@@ -1,0 +1,8 @@
+---
+- name: Join a member appliance to the Grid
+  hosts: localhost
+  connection: local
+ 
+  roles:
+    - { role: joinGrid }
+...

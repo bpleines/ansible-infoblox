@@ -14,7 +14,7 @@ The infoblox-client installed on the targeted localhost machine. Ansible Core >=
 
 Role Variables
 --------------
-Example nios_provider supplied below. This should be vaulted in /group_vars/localhost/main.yml for production use
+Example nios_provider supplied below. This should be vaulted in group_vars/localhost/main.yml for production use
 
 ```
 nios_provider:
