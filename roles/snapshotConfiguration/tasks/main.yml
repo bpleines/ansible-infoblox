@@ -1,18 +1,18 @@
 ---
-#- name: Ensure that the jq package is installed
+#- name: "Ensure that the jq package is installed"
 #  dnf:
 #    name: jq
 #    state: present
 
-- name: Generate a snapshot of the existing records
+- name: "Generate a snapshot of the existing records"
   include_tasks: dynamic_provider_shell_template.yml
   vars:
-    shell_template: 'snapshot'
+    shell_template: "snapshot"
     #Do not put any non alphanumeric characters or spaces for the comment
-    snapshot_comment: 'AnsibleSnapshot'
+    snapshot_comment: "AnsibleSnapshot"
 
 - name: Remove the generated cookie file
   file:
-    path: '/tmp/wapi.auth'
+    path: "/tmp/wapi.auth"
     state: absent
 ...

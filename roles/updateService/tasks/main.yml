@@ -1,31 +1,26 @@
 ---
-- name: Fail the play and suggest that user needs to supply the gridmaster_fqdn or state variables
-  fail:
-    msg: "Please specify the gridmaster_fqdn or state [started, restarted]"
-  when: gridmaster_fqdn is undefined or state is undefined
-
 - name: "Gather the fqdn of {{ nios_provider.host }}"
   include_tasks: dynamic_provider_shell_template.yml
   register: gridmember_info
   vars:
-    shell_template: 'gridmemberFqdn'
+    shell_template: "gridmemberFqdn"
 
 - name: "Start the dns service on {{ gridmaster_fqdn }}"
   include_tasks: dynamic_provider_shell_template.yml
   vars:
-    shell_template: 'startDns'
-  when: state == 'started'
+    shell_template: "startDns"
+  when: state == "started"
 
-- block:
+  #- block:
     #Default invocation is all
-    - name: Restart the '{{ service_option }} on {{ nios_provider }}'
-      include_tasks: dynamic_provider_shell_template.yml
-      vars:
-        shell_template: 'restartService' 
-  when: state == 'restarted'
+    #    - name: "Restart the {{ service_option }} on {{ nios_provider }}"
+    #      include_tasks: dynamic_provider_shell_template.yml
+    #  vars:
+    #    shell_template: "restartService" 
+    #when: state == "restarted"
 
 - name: Remove the generated cookie file
   file:
-    path: '/tmp/wapi.auth'
+    path: "/tmp/wapi.auth"
     state: absent
 ...

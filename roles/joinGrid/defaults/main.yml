@@ -1,3 +1,3 @@
 ---
-shared_secret: 'test'
-grid_name: 'Infoblox'
+shared_secret: "test"
+grid_name: "Infoblox"

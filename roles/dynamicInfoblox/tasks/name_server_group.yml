@@ -1,11 +1,11 @@
 ---
-- name: 'Create a name server group called {{ name_server_group }}'
+- name: "Create a name server group called {{ name_server_group }}"
   uri:
-    url: 'https://{{ nios_provider.host }}/wapi/{{ wapi_version }}/nsgroup'
+    url: "https://{{ nios_provider.host }}/wapi/{{ wapi_version }}/nsgroup"
     method: POST
-    user: '{{ nios_provider.username }}'
-    password: '{{ nios_provider.password }}'
-    body: '{{ nsgroup_yml|to_json }}'
+    user: "{{ nios_provider.username }}"
+    password: "{{ nios_provider.password }}"
+    body: "{{ nsgroup_yml|to_json }}"
     #201 signifies successful creation
     #400 signifies existing entry
     #both should signify a successful WAPI call
@@ -17,25 +17,25 @@
   changed_when: ns_group_create.status == 201
   vars:
     nsgroup_yml:
-      name: '{{ name_server_group }}'
+      name: "{{ name_server_group }}"
       grid_primary:
-        - name: '{{ gridmaster_fqdn }}'
+        - name: "{{ gridmaster_fqdn }}"
 
 #Temporarily remove created forward zone to recreate it with ns_group
-- name: 'Remove the forward DNS zone called {{ ansible_zone }}'
+- name: "Remove the forward DNS zone called {{ ansible_zone }}"
   nios_zone:
-    name: '{{ ansible_zone }}'
+    name: "{{ ansible_zone }}"
     comment: DNS zone called {{ ansible_zone }}
     state: absent
-    provider: '{{ nios_provider }}'
+    provider: "{{ nios_provider }}"
 
-- name: 'Update the forward zone {{ ansible_zone }} to reflect its new Grid primary as name server group {{ name_server_group }}'
+- name: "Update the forward zone {{ ansible_zone }} to reflect its new Grid primary as name server group {{ name_server_group }}"
   uri:
-    url: 'https://{{ nios_provider.host }}/wapi/{{ wapi_version }}/zone_auth'
+    url: "https://{{ nios_provider.host }}/wapi/{{ wapi_version }}/zone_auth"
     method: POST
-    user: '{{ nios_provider.username }}'
-    password: '{{ nios_provider.password }}'
-    body: '{{ forward_zone_yml|to_json }}'
+    user: "{{ nios_provider.username }}"
+    password: "{{ nios_provider.password }}"
+    body: "{{ forward_zone_yml|to_json }}"
     #201 signifies successful creation
     #400 signifies existing entry
     #both should signify a successful WAPI call
@@ -51,12 +51,12 @@
       ns_group: "{{ name_server_group }}"
       view: "default"
 
-- name: 'Create an equivalent reverse DNS zone'
+- name: "Create an equivalent reverse DNS zone"
   uri:
-    url: 'https://{{ nios_provider.host }}/wapi/{{ wapi_version }}/zone_auth'
+    url: "https://{{ nios_provider.host }}/wapi/{{ wapi_version }}/zone_auth"
     method: POST
-    user: '{{ nios_provider.username }}'
-    password: '{{ nios_provider.password }}'
+    user: "{{ nios_provider.username }}"
+    password: "{{ nios_provider.password }}"
     body: "{{ reverse_zone_yml|to_json }}"
     #201 signifies successful creation
     #400 signifies existing entry

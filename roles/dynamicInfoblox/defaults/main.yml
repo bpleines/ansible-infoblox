@@ -1,6 +1,9 @@
 #These can optionally be overridden. Role defaults at the lowest variable precidence
 ansible_zone: ansible.local
 ansible_subnet: 192.168.1.0/24
-gateway_address: '{{ ansible_subnet | ipaddr("first_usable") }}'
+gateway_address: "{{ ansible_subnet | ipaddr('first_usable') }}"
 
-name_server_group: 'ansibleNsGroup'
+name_server_group: "ansibleNsGroup"
+
+stored_host_base: "/tmp/dynamic-infoblox"
+stored_host_count: "/tmp/dynamic-infoblox/host_record_count.txt"

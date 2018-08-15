@@ -1,10 +1,10 @@
 ---
-- name: 'Get a token and url to post the import to'
+- name: "Get a token and url to post the import to"
   uri:
-    url: 'https://{{ nios_provider.host }}/wapi/{{ wapi_version }}/fileop?_function=uploadinit'
+    url: "https://{{ nios_provider.host }}/wapi/{{ wapi_version }}/fileop?_function=uploadinit"
     method: POST
-    user: '{{ nios_provider.username }}'
-    password: '{{ nios_provider.password }}'
+    user: "{{ nios_provider.username }}"
+    password: "{{ nios_provider.password }}"
     #201 signifies successful creation
     #400 signifies existing entry
     #both should signify a successful WAPI call
@@ -16,24 +16,24 @@
 
 - name: Set the csv_url fact
   set_fact:
-    csv_url: '{{ csv_token_url.json.url }}'
+    csv_url: "{{ csv_token_url.json.url }}"
 
 - name: Set the csv_token fact
   set_fact: 
-    csv_token: '{{ csv_token_url.json.token }}'
+    csv_token: "{{ csv_token_url.json.token }}"
 
 - name: Post the file to the retrived url
-  shell: curl -k -u {{ nios_provider.username }}:{{ nios_provider.password }} -H 'Content-Type:multipart/form-data' "{{ csv_url }}" -F file=@{{ static_csv_file }}
+  shell: curl -k -u {{ nios_provider.username }}:{{ nios_provider.password }} -H "Content-Type:multipart/form-data" "{{ csv_url }}" -F file=@{{ static_csv_file }}
   vars:
-    static_csv_file: '{{ role_path }}/files/staticRecords/static-test.csv'
+    static_csv_file: "{{ role_path }}/files/staticRecords/static-test.csv"
 
 - name: Merge the posted file results
   uri:
     url: "https://{{ nios_provider.host }}/wapi/{{ wapi_version }}/fileop?_function=csv_import"          
     method: POST
-    user: '{{ nios_provider.username }}'
-    password: '{{ nios_provider.password }}'
-    body: '{{ merge_csv_yml | to_json }}'
+    user: "{{ nios_provider.username }}"
+    password: "{{ nios_provider.password }}"
+    body: "{{ merge_csv_yml | to_json }}"
     headers:
        Content-Type: "application/json"
     validate_certs: no
@@ -42,14 +42,14 @@
       action: "START"
       on_error: "CONTINUE"
       update_method: "MERGE"
-      token: '{{ csv_token }}'
+      token: "{{ csv_token }}"
 
 #- name: Merge the posted file results
-#shell: curl -k -u {{ nios_provider.username }}:{{ nios_provider.password }} -H 'Content-Type:application/json' -X POST "https://{{ nios_provider.host }}/wapi/{{ wapi_version }}/fileop?_function=csv_import" -d '{{ merge_csv_yml|to_json }}'
+#shell: curl -k -u {{ nios_provider.username }}:{{ nios_provider.password }} -H "Content-Type:application/json" -X POST "https://{{ nios_provider.host }}/wapi/{{ wapi_version }}/fileop?_function=csv_import" -d "{{ merge_csv_yml|to_json }}"
 # vars:
 #merge_csv_yml:
 #action: "START"
       #on_error: "CONTINUE"
      #update_method: "MERGE"
-     #token: '{{ csv_token }}'
+     #token: "{{ csv_token }}"
 ...

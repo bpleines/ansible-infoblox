@@ -1,5 +1,5 @@
 ---
-- name: Predefine a gridmember
+- name: Predefine a grid member
   hosts: localhost
   connection: local
  

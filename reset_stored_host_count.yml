@@ -7,4 +7,4 @@
     - name: "Reset the stored_host_count back to 1"
       copy:
         content: 1
-        dest: 'roles/dynamicInfoblox/files/host_record_count.txt'
+        dest: "/tmp/dynamic-infoblox/host_record_count.txt"

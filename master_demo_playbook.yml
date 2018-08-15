@@ -2,14 +2,19 @@
 - name: Create a master demo pulling in all concepts to demonstrate grand automation power
   hosts: localhost
   connection: local
- 
+
   roles:
-    - { role: dynamicInfoblox, host_count: 1 }
-    - { role: dynamicInfoblox, host_count: 5, ansible_zone: "redhat.com" } 
+    - { role: dynamicInfoblox }
+    - { role: dynamicInfoblox, host_count: 5, ansible_zone: redhat.com } 
     - { role: dynamicInfoblox, host_count: 3, ansible_subnet: 192.168.2.0/24 }
-    - { role: updateService, state: started, gridmaster_fqdn: gm.ansible.local }
+    - { role: updateService, state: started }
+    #The these roles require additional Infoblox appliances - they can be commented out if desired
     - { role: predefineGridmember, member_name: m3.redhat.com, member_address: 192.168.2.3, member_gateway: 192.168.2.254, member_subnet_mask: 255.255.255.0 }
-    #These roles require a second preconfigured Infoblox installation
+    - { role: predefineGridmember, member_name: m5.ansible.local, member_address: 192.168.1.5, member_gateway: 192.168.1.1, member_subnet_mask: 255.255.255.0 } 
     - { role: predefineGridmasterCandidate, master_candidate_name: gmc.redhat.com, master_candidate_address: 192.168.2.2, master_candidate_gateway: 192.168.2.254, master_candidate_subnet_mask: 255.255.255.0 }
+    - { role: joinGrid, join_grid_host: 192.168.2.3 }
+    - { role: joinGrid, join_grid_host: 192.168.1.5 }
+    - { role: joinGrid, join_grid_host: 192.168.2.2 }
+    #This role does not require additional appliances
     - { role: snapshotConfiguration }
 ...
