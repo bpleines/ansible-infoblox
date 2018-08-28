@@ -7,7 +7,7 @@
     - { role: dynamicInfoblox }
     - { role: dynamicInfoblox, host_count: 5, ansible_zone: redhat.com } 
     - { role: dynamicInfoblox, host_count: 3, ansible_subnet: 192.168.2.0/24 }
-    - { role: updateService, state: started }
+    - { role: updateService, state: started, grid_fqdn: gmc.ansible.local }
     #The these roles require additional Infoblox appliances - they can be commented out if desired
     - { role: predefineGridmember, member_name: m3.redhat.com, member_address: 192.168.2.3, member_gateway: 192.168.2.254, member_subnet_mask: 255.255.255.0 }
     - { role: predefineGridmember, member_name: m5.ansible.local, member_address: 192.168.1.5, member_gateway: 192.168.1.1, member_subnet_mask: 255.255.255.0 } 
