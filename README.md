@@ -2,7 +2,7 @@ Dynamically create host records in Infoblox using Ansible!
 
 A collection of roles featuring some of Infoblox's new integration in Core v2.5 to: 
 1. Create zones and add host records at the next available ip addresses using a Name Server Group
-2. Start the DNS service on the gridmaster
+2. Start the DNS service on the Grid Master
 3. Predefine a Grid Master Candidate
 4. Predefine a Grid Member
 5. Join a Grid Master Candidate or Grid Member to a Grid
@@ -88,7 +88,7 @@ Predefine a new Grid Member:
 ```yaml
          - { role: predefineGridmember, member_name: gmc.ansible.local, member_address: 192.168.2.2, member_gateway: 192.168.2.254, member_subnet_mask:255.255.255.0 }
 ```
-Join a Grid Master Candidate or Grid Member to the Grid
+Join a Grid Master Candidate or Grid Member to the Grid:
 ```yaml         
          - { role: joinGrid, join_grid_host: 192.168.2.3 }
 ```         
