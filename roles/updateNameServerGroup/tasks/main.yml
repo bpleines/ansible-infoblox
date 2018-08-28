@@ -1,0 +1,47 @@
+---
+- name: "Retrieve the name server group called {{ name_server_group }}"
+  uri:
+    url: "https://{{ nios_provider.host }}/wapi/{{ wapi_version }}/nsgroup?name={{ name_server_group }}"
+    method: GET
+    user: "{{ nios_provider.username }}"
+    password: "{{ nios_provider.password }}"
+    #200 signifies successful retrieval
+    status_code: 200
+    headers:
+      Content-Type: "application/json"
+    validate_certs: no
+  register: ns_group_info
+  tags: post
+
+- name: "Update the name server group called {{ name_server_group }}"
+  uri:
+    url: "https://{{ nios_provider.host }}/wapi/{{ wapi_version }}/{{ ns_group_info.json[0]._ref }}"
+    method: PUT
+    user: "{{ nios_provider.username }}"
+    password: "{{ nios_provider.password }}"
+    body: "{{ ns_group_update_yml|to_json }}"
+    #200 signifies successful update
+    #400 signifies existing entry
+    status_code: 200, 400
+    headers:
+      Content-Type: "application/json"
+    validate_certs: no
+    register: ns_group_update
+    changed_when: ns_group_update.result == 201
+  vars:
+    ns_group_update_yml:
+      name: ansibleNsGroup
+      grid_primary:
+        - name: gm.ansible.local
+          stealth: False
+      grid_secondaries:
+        - name: gmc.redhat.com
+          stealth: False
+          grid_replicate: True
+        - name: m3.redhat.com
+          stealth: False
+          grid_replicate: True
+        - name: m5.ansible.local
+          stealth: False
+          grid_replicate: True
+...

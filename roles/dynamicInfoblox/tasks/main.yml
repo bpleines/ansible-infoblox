@@ -13,7 +13,7 @@
     state: present
     provider: "{{ nios_provider }}"
 
-- name: "Create a local forward DNS local zone called {{ ansible_zone }}"
+- name: "Create a forward DNS zone called {{ ansible_zone }}"
   nios_zone:
     name: "{{ ansible_zone }}"
     comment: forward DNS zone

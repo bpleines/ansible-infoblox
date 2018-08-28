@@ -15,6 +15,10 @@
     - { role: joinGrid, join_grid_host: 192.168.2.3 }
     - { role: joinGrid, join_grid_host: 192.168.1.5 }
     - { role: joinGrid, join_grid_host: 192.168.2.2 }
-    #This role does not require additional appliances
+    - { role: updateService, state: started, gridmaster_fqdn: m3.redhat.com }
+    - { role: updateService, state: started, gridmaster_fqdn: m5.ansible.local }
+    - { role: updateService, state: started, gridmaster_fqdn: gmc.redhat.com }
+    - { role: updateNameServerGroup }
+    #Snapshot role does not require additional appliances
     - { role: snapshotConfiguration }
 ...

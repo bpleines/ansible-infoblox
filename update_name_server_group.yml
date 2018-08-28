@@ -1,0 +1,8 @@
+---
+- name: Update a service for a name server group
+  hosts: localhost
+  connection: local
+ 
+  roles:
+    - { role: updateNameServerGroup }
+...
