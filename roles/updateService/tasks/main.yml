@@ -5,7 +5,7 @@
   vars:
     shell_template: "gridmemberFqdn"
 
-- name: "Start the dns service on {{ gridmaster_fqdn }}"
+- name: "Start the dns service on {{ grid_fqdn }}"
   include_tasks: dynamic_provider_shell_template.yml
   vars:
     shell_template: "startDns"

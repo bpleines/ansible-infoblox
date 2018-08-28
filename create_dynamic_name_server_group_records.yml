@@ -5,4 +5,4 @@
  
   roles:
     - { role: dynamicInfoblox }
-    - { role: updateService, gridmaster_fqdn: gm.ansible.local, state: started }
+    - { role: updateService, grid_fqdn: gm.ansible.local, state: started }

@@ -22,6 +22,7 @@
         - name: "{{ gridmaster_fqdn }}"
 
 #Temporarily remove created forward zone to recreate it with ns_group
+#This can likely be removed if below task converted to a PUT
 - name: "Remove the forward DNS zone called {{ ansible_zone }}"
   nios_zone:
     name: "{{ ansible_zone }}"
