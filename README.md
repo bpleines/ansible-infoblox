@@ -71,7 +71,7 @@ Override the default zone:
 ```yaml
          - { role: dynamicInfoblox, ansible_zone: redhat.com }
 ```
-Override the default subnet. The default gateway_address is automated to reflect changes overriden here:
+Override the default subnet. The default *gateway_address* is automated to reflect changes overriden here:
 ```yaml
          - { role: dynamicInfoblox, ansible_subnet: 10.10.10.0/24 }
 ```
