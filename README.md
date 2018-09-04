@@ -16,7 +16,7 @@ The infoblox-client installed on the targeted localhost machine. Ansible Core >=
 
 Role Variables
 --------------
-Example nios_provider supplied below. This should be vaulted in group_vars/localhost/main.yml for production use.
+Example nios_provider supplied below. This can be vaulted in group_vars/all/vault.yml for production use.
 
 ```
 nios_provider:
@@ -25,7 +25,7 @@ nios_provider:
    username: admin
    password: infoblox
 
-wapi_version: 'v2.7'
+wapi_version: 'v2.6'
 ```
 
 Example Playbooks
@@ -51,7 +51,6 @@ This calls a master playbook to demo the invocation of several roles in successi
 ```
 ansible-playbook master-demo-playbook.yml
 ```
-
 
 Role Calls
 -----------------
@@ -82,11 +81,11 @@ Start the dns service on an Infoblox appliance:
 ```
 Predefine a new Grid Master Candidate:
 ```yaml
-         - { role: predefineGridmasterCandidate, master_candidate_name: gmc.ansible.local, master_candidate_address: 192.168.2.2, master_candidate_gateway: 192.168.2.254, master_candidate_subnet_mask:255.255.255.0 }
+         - { role: predefineGridmasterCandidate, master_candidate_name: gmc.ansible.local, master_candidate_address: 192.168.2.2, master_candidate_gateway: 192.168.2.254, master_candidate_subnet_mask: 255.255.255.0 }
 ```
 Predefine a new Grid Member:
 ```yaml
-         - { role: predefineGridmember, member_name: gmc.ansible.local, member_address: 192.168.2.2, member_gateway: 192.168.2.254, member_subnet_mask:255.255.255.0 }
+         - { role: predefineGridmember, member_name: m3.redhat.com, member_address: 192.168.2.3, member_gateway: 192.168.2.254, member_subnet_mask: 255.255.255.0 }
 ```
 Join a Grid Master Candidate or Grid Member to the Grid:
 ```yaml         
