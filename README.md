@@ -12,11 +12,11 @@ A collection of roles featuring some of Infoblox's new integration in Core v2.5 
 Requirements
 ------------
 
-The infoblox-client installed on the targeted localhost machine. Ansible Core >= v2.5 for the infoblox modules and lookup plugin.
+The infoblox-client installed on the targeted localhost machine. Ansible Core >= v2.5 for the Infoblox modules and lookup plugin.
 
 Role Variables
 --------------
-Example nios_provider supplied below. This can be vaulted in group_vars/all/vault.yml for production use.
+Example *nios_provider* supplied below. *nios_provider* can be vaulted in group_vars/all/vault.yml for production use.
 
 ```
 nios_provider:
@@ -41,7 +41,7 @@ ansible-playbook create_dynamic_records.yml -e "ansible_zone=redhat.com"
 ansible-playbook create_dynamic_records.yml -e "ansible_subnet=10.10.10.0/24"
 ```
 
-Another example playbook creates a snapshot of the gridmaster configuration at any time:
+Another example playbook creates a snapshot of the Grid Master configuration at any time:
 ```
 ansible-playbook take_snapshot.yml
 ```
@@ -63,7 +63,7 @@ The default invocation creates a forward/reverse zone, subnet, and gateway addre
       roles:
          - { role: dynamicInfoblox }
 ```
-Specify a host_count to create (several) new host records at a time:
+Specify a *host_count* to create (several) new host records at a time:
 ```yaml
          - { role: dynamicInfoblox, host_count: 10 }
 ```
