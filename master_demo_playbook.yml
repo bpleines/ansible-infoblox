@@ -15,6 +15,7 @@
     - { role: joinGrid, join_grid_host: 192.168.2.3 }
     - { role: joinGrid, join_grid_host: 192.168.1.5 }
     - { role: joinGrid, join_grid_host: 192.168.2.2 }
+    - { role: updateService, state: started, grid_fqdn: gm.redhat.com }
     - { role: updateService, state: started, grid_fqdn: m3.redhat.com }
     - { role: updateService, state: started, grid_fqdn: m5.ansible.local }
     - { role: updateService, state: started, grid_fqdn: gmc.redhat.com }
